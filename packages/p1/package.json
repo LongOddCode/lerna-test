@@ -1,5 +1,5 @@
 {
-    "name": "lerga-test-pkg1",
+    "name": "lerna-test-pkg1",
     "version": "0.5.9",
     "description": "",
     "main": "index.js",
