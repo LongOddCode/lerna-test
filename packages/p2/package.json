@@ -1,5 +1,5 @@
 {
-    "name": "lerna-test-p2",
+    "name": "lerna-test-pkg2",
     "version": "0.5.6",
     "description": "",
     "main": "index.js",
@@ -7,9 +7,9 @@
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
-        "lerna-test-p1": "0.5.3"
+        "lerna-test-pkg1": "0.5.3"
     },
     "author": "",
     "license": "ISC",
-    "gitHead": "277d0f58803d22202e1c2aa4549eb3059de95cb2"
+    "gitHead": "9e38e250cc1c938bdddd568a6544d8d7bc8fa2a4"
 }

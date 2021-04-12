@@ -1,5 +1,5 @@
 {
-    "name": "lerna-test-p3",
+    "name": "lerna-test-pkg3",
     "version": "0.5.6",
     "description": "",
     "main": "index.js",
@@ -8,5 +8,5 @@
     },
     "author": "lo",
     "license": "MIT",
-    "gitHead": "277d0f58803d22202e1c2aa4549eb3059de95cb2"
+    "gitHead": "9e38e250cc1c938bdddd568a6544d8d7bc8fa2a4"
 }
