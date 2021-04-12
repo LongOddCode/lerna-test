@@ -1,6 +1,6 @@
 {
     "name": "lerna-test-pkg2",
-    "version": "0.6.5-alpha.0",
+    "version": "0.6.6-alpha.0",
     "description": "",
     "main": "index.js",
     "scripts": {
