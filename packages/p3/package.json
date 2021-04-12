@@ -1,6 +1,6 @@
 {
     "name": "lerna-test-p3",
-    "version": "0.4.0",
+    "version": "0.5.4",
     "description": "",
     "main": "index.js",
     "scripts": {
