@@ -10,5 +10,6 @@
         "lerna-test-p1": "0.5.3"
     },
     "author": "",
-    "license": "ISC"
+    "license": "ISC",
+    "gitHead": "7bc651992ae43c4b22d29faf94c0b69df355e994"
 }
