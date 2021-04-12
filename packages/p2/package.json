@@ -7,7 +7,7 @@
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
-        "lerna-test-pkg1": "^0.6.5-alpha.0"
+        "lerna-test-pkg1": "0.6.5-alpha.0"
     },
     "author": "",
     "license": "MIT",
