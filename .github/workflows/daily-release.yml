@@ -6,37 +6,7 @@ on:
       - "master"
 
 jobs:
-  pre-tests:
-    name: run e2e test on (${{ matrix.os }} node ${{ matrix.node-version }}) with source code
-
-    strategy:
-      matrix:
-        os: [windows-latest, macos-latest, ubuntu-latest]
-        node-version: [14]
-
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Setup node
-        uses: actions/setup-node@v2.1.2
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Setup npm registry
-        run: |
-          echo "${{ secrets.NPMRC }}" > ~/.npmrc
-
-      - name: E2E Test
-        run: |
-          echo "to be enabled."
-
   daily-release:
-    needs: pre-tests
     runs-on: ubuntu-latest
 
     steps:
@@ -61,5 +31,3 @@ jobs:
       - name: release npm packages to npmjs.org
         run: |
           npx lerna publish --no-private --yes prerelease
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
