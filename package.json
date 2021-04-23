@@ -5,7 +5,7 @@
         "lerna": "^4.0.0"
     },
     "scripts": {
-        "setup": "npm intall --no-package-lock && npm run bootstrap",
+        "setup": "npm install --no-package-lock && npm run bootstrap",
         "bootstrap": "lerna bootstrap"
     }
 }
