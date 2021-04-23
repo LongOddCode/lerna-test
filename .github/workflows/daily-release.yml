@@ -3,7 +3,7 @@ name: Daily release
 on:
   push:
     branches:
-      - "main"
+      - "master"
 
 jobs:
   pre-tests:
