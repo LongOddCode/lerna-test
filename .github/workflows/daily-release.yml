@@ -73,7 +73,6 @@ jobs:
         working-directory: ./packages/p4
         run: |
           npm install
-          npm run build
           npx vsce package
 
       - name: release VSCode extension to github
