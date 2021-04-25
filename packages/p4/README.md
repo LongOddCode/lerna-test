@@ -9,9 +9,6 @@ It is not intended as a production quality extension.
 - Click on the CodeLens for action example
 - Can be enabled or disabled by command palete
 
-## Demo
-
-![demo](demo.gif)
 
 ## VS Code API
 
