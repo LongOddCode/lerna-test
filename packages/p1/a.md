@@ -1,6 +1,5 @@
 asdf
 
-asdf
 
 asdf
 
