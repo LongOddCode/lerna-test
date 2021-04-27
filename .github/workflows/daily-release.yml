@@ -25,7 +25,7 @@ jobs:
 
       - name: Setup npm registry
         run: |
-          echo "${{ secrets.NPMRC }}" > ~/.npmrc
+          npm config list --json
 
       - name: Setup project
         run: |
