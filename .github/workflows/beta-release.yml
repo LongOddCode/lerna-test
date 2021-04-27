@@ -1,4 +1,4 @@
-name: Daily release
+name: Beta release
 
 on:
   push:
@@ -36,7 +36,7 @@ jobs:
           npx lerna publish --no-private --preid beta prerelease --yes
 
   release-vsix:
-    needs: daily-release-npm
+    needs: release-npm
     runs-on: ubuntu-latest
 
     steps:
