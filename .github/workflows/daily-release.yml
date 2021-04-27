@@ -3,7 +3,7 @@ name: Daily release
 on:
   push:
     branches:
-      - "master"
+      - master
 
 jobs:
 
@@ -25,7 +25,7 @@ jobs:
 
       - name: Setup npm registry
         run: |
-          npm config list --json
+          echo "${{ secrets.NPMRC }}" > ~/.npmrc
 
       - name: Setup project
         run: |
