@@ -1,9 +1,10 @@
-name: Daily release
+name: Beta release
 
 on:
-  push:
+  pull_request:
     branches:
       - release
+    types: [closed]
 
 jobs:
   release-npm:
@@ -36,7 +37,7 @@ jobs:
           npx lerna publish --no-private --preid beta prerelease --yes
 
   release-vsix:
-    needs: daily-release-npm
+    needs: release-npm
     runs-on: ubuntu-latest
 
     steps:
