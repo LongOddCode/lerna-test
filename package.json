@@ -6,6 +6,7 @@
     },
     "scripts": {
         "setup": "npm install --no-package-lock && npm run bootstrap",
-        "bootstrap": "lerna bootstrap"
+        "bootstrap": "lerna bootstrap",
+        "version": "lerna clean --yes && lerna bootstrap --ignore-scripts -- --package-lock-only --no-audit && git add packages/*/package-lock.json"
     }
 }
