@@ -7,7 +7,7 @@ on:
 
 jobs:
 
-  daily-release:
+  daily-release-npm:
     runs-on: ubuntu-latest
 
     steps:
@@ -37,6 +37,27 @@ jobs:
           git config --global user.email 'haolong@microsoft.com'
           npx lerna publish --no-private --yes prerelease
 
+  daily-release-vsix:
+    needs: daily-release-npm
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.CD_PAT }}
+          ref: main
+
+      - name: Setup node
+        uses: actions/setup-node@v2.1.2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Setup npm registry
+        run: |
+          echo "${{ secrets.NPMRC }}" > ~/.npmrc
+
       - name: pack vsix
         working-directory: ./packages/p4
         run: |
@@ -46,8 +67,9 @@ jobs:
       - name: release VSCode extension to github
         uses: marvinpinto/action-automatic-releases@latest
         with:
-          repo_token: "${{ secrets.CD_PAT}}"
+          repo_token: "${{ secrets.CD_PAT }}"
           automatic_release_tag: "latest"
           prerelease: false
           files: |
             ./packages/**/*.vsix
+
