@@ -16,7 +16,7 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.CD_PAT }}
-          ref: origin/master
+          ref: origin/main
 
       - name: Setup node
         uses: actions/setup-node@v2.1.2
