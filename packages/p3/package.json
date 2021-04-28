@@ -1,6 +1,6 @@
 {
     "name": "lerna-test-pkg3",
-    "version": "0.9.20-alpha.0",
+    "version": "0.9.20-beta.0",
     "description": "",
     "private": "true",
     "main": "index.js",
@@ -8,8 +8,8 @@
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
-        "lerna-test-pkg1": "^0.9.22-alpha.0",
-        "lerna-test-pkg2": "^0.9.22-alpha.0"
+        "lerna-test-pkg1": "^0.9.22-beta.0",
+        "lerna-test-pkg2": "^0.9.22-beta.0"
     },
     "author": "long",
     "license": "MIT",
