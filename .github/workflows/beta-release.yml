@@ -13,6 +13,7 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.CD_PAT }}
+          ref: ${{ github.ref }}
 
       - name: Setup node
         uses: actions/setup-node@v2.1.2
@@ -43,6 +44,7 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.CD_PAT }}
+          ref: ${{ github.ref }}
 
       - name: Setup node
         uses: actions/setup-node@v2.1.2
@@ -52,7 +54,6 @@ jobs:
       - name: Setup npm registry
         run: |
           echo "${{ secrets.NPMRC }}" > ~/.npmrc
-          echo ${{ github.ref }}
 
       - name: pack vsix
         working-directory: ./packages/p4
