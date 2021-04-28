@@ -2,6 +2,11 @@ name: Beta release
 
 on:
   workflow_dispatch:
+    inputs:
+      force:
+        description: 'force release from alpha to beta'     
+        required: true
+        default: '--force'
 
 jobs:
   release-npm:
@@ -32,7 +37,7 @@ jobs:
         run: |
           git config --global user.name 'LongOddCode'
           git config --global user.email 'haolong@microsoft.com'
-          npx lerna publish --no-private --preid beta prerelease --yes
+          npx lerna publish --no-private --preid beta prerelease --yes ${{ github.event.inputs.force }}
 
   release-vsix:
     needs: release-npm
