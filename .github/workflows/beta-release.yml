@@ -5,8 +5,8 @@ on:
     inputs:
       force:
         description: 'force release from alpha to beta'     
-        required: true
-        default: '--force'
+        required: false
+        default: '--force-publish'
 
 jobs:
   release-npm:
