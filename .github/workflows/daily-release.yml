@@ -68,7 +68,7 @@ jobs:
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.CD_PAT }}"
-          automatic_release_tag: "latest"
+          automatic_release_tag: "daily"
           prerelease: false
           files: |
             ./packages/**/*.vsix
