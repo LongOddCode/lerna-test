@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       force:
-        description: 'force release from alpha to beta'     
+        description: 'force release even if no update'     
         required: false
         default: '--force-publish'
 
