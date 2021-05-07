@@ -42,6 +42,23 @@ jobs:
           git config --global user.email 'haolong@microsoft.com'
           echo $GITHUB_EVENT_NAME
 
+      - name: Download Simple Auth bits
+        uses: nick-invision/retry@v2
+        env:
+          SIMPLE_AUTH_SAS_TOKEN: ${{secrets.SIMPLE_AUTH_SAS_TOKEN}}
+          SIMPLE_AUTH_ENDPOINT: ${{secrets.SIMPLE_AUTH_ENDPOINT}}
+        with:
+          timeout_minutes: 10
+          max_attempts: 5
+          retry_on: error
+          shell: pwsh
+          command: |
+            $version=Get-Content packages/fx-core/templates/plugins/resource/simpleauth/version.txt
+            $fileName="Microsoft.TeamsFx.SimpleAuth_$version.zip"
+            echo $SIMPLE_AUTH_ENDPOINT
+            $url=$env:SIMPLE_AUTH_ENDPOINT+'/'+$fileName+'?'+$env:SIMPLE_AUTH_SAS_TOKEN
+            Invoke-WebRequest $url -OutFile packages/fx-core/templates/plugins/resource/simpleauth/SimpleAuth.zip
+
 
       - name: release npm packages to npmjs.org
         if: ${{ github.event.inputs.bump == 'false' || $GITHUB_EVENT_NAME == 'schedule' }} 
