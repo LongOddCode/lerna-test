@@ -40,7 +40,7 @@ jobs:
         run: |
           git config --global user.name 'LongOddCode'
           git config --global user.email 'haolong@microsoft.com'
-          echo $GITHUB_EVENT_NAME
+          echo ${{ github.event }}
 
       - name: Download Simple Auth bits
         uses: nick-invision/retry@v2
@@ -61,7 +61,7 @@ jobs:
 
 
       - name: release npm packages to npmjs.org
-        if: ${{ github.event.inputs.bump == 'false' || $GITHUB_EVENT_NAME == 'schedule' }} 
+        if: ${{ github.event.inputs.bump == 'false' || GITHUB_EVENT_NAME == 'schedule' }} 
         run: |
           echo ${{ github.event.inputs.bump }}
           npx lerna publish --no-private --preid=alpha --dist-tag=alpha --yes prerelease
