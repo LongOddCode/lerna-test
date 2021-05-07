@@ -2,7 +2,7 @@
     "name": "lerna-test-pkg4",
     "displayName": "CodeLens Sample",
     "description": "Samples for VS Code's CodeLens API",
-    "version": "0.0.3",
+    "version": "0.0.4-alpha.0",
     "publisher": "ms-vscode",
     "engines": {
         "vscode": "^1.26.0"
