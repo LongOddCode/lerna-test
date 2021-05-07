@@ -53,13 +53,14 @@ jobs:
           npx lerna publish --no-private --preid=alpha --dist-tag=alpha --yes prepatch --force-publish
 
       - name: pack vsix
-        working-directory: ./packages/p4
+        uses: nick-invision/retry@v2
         with:
           max_attempts: 5
           retry_on: error
-        run: |
-          npm install
-          npx vsce package
+          command: |
+            cd ./packages/p4
+            npm install
+            npx vsce package
 
       - name: release VSCode extension to github
         uses: marvinpinto/action-automatic-releases@latest
