@@ -61,7 +61,7 @@ jobs:
 
 
       - name: release npm packages to npmjs.org
-        if: ${{ github.event.inputs.bump == 'false' }} 
+        if: ${{ github.event_name == 'schedule' || github.event.inputs.bump == 'false' }}
         run: |
           echo ${{ github.event.inputs.bump }}
           npx lerna publish --no-private --preid=alpha --dist-tag=alpha --yes prerelease
