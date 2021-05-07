@@ -8,8 +8,8 @@
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
-        "lerna-test-pkg1": "^0.9.22-alpha.2",
-        "lerna-test-pkg2": "^0.9.22-alpha.2"
+        "lerna-test-pkg1": "^0.9.22-alpha.5",
+        "lerna-test-pkg2": "^0.9.22-alpha.5"
     },
     "author": "long",
     "license": "MIT",
