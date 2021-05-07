@@ -1,9 +1,12 @@
 name: Daily release
 
 on:
-  push:
-    branches:
-      - master
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: 'bump patch version(true or false)'
+        required: false
+        default: 'false'
 
 jobs:
 
@@ -21,7 +24,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v2.1.2
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 14
 
       - name: Setup npm registry
         run: |
@@ -31,32 +34,21 @@ jobs:
         run: |
           npm run setup
 
-      - name: release npm packages to npmjs.org
+      - name: Setup git
         run: |
           git config --global user.name 'LongOddCode'
           git config --global user.email 'haolong@microsoft.com'
-          npx lerna publish --no-private --preid alpha --yes prerelease
 
-  daily-release-vsix:
-    needs: daily-release-npm
-    runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.CD_PAT }}
-          ref: master
-
-      - name: Setup node
-        uses: actions/setup-node@v2.1.2
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Setup npm registry
+      - name: release npm packages to npmjs.org
+        if: ${{ github.event.inputs.bump }} == 'false'
         run: |
-          echo "${{ secrets.NPMRC }}" > ~/.npmrc
+          npx lerna publish --no-private --preid=alpha --dist-tag=alpha --yes prerelease
+
+      - name: bump patch version and release npm packages to npmjs.org
+        if: ${{ github.event.inputs.bump }} == 'true'
+        run: |
+          npx lerna publish --no-private --preid=alpha --dist-tag=alpha --yes prepatch
 
       - name: pack vsix
         working-directory: ./packages/p4
@@ -69,7 +61,6 @@ jobs:
         with:
           repo_token: "${{ secrets.CD_PAT }}"
           automatic_release_tag: "daily"
-          prerelease: false
+          prerelease: true
           files: |
             ./packages/**/*.vsix
-

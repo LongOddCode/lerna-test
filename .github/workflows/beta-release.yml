@@ -1,11 +1,16 @@
 name: Beta release
 
 on:
-  pull_request:
-    branches:
-      - release
-    types: [closed]
   workflow_dispatch:
+    inputs:
+      force:
+        description: 'force release even if no update(set empty if not)'
+        required: false
+        default: '--force-publish'
+      stable:
+        description: 'promote to stable version(true or false)'
+        required: false
+        default: 'false'
 
 jobs:
   release-npm:
@@ -17,11 +22,12 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.CD_PAT }}
+          ref: ${{ github.ref }}
 
       - name: Setup node
         uses: actions/setup-node@v2.1.2
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 14
 
       - name: Setup npm registry
         run: |
@@ -31,31 +37,21 @@ jobs:
         run: |
           npm run setup
 
-      - name: release npm packages to npmjs.org
+      - name: Setup git
         run: |
           git config --global user.name 'LongOddCode'
           git config --global user.email 'haolong@microsoft.com'
-          npx lerna publish --no-private --preid beta prerelease --yes
 
-  release-vsix:
-    needs: release-npm
-    runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.CD_PAT }}
-
-      - name: Setup node
-        uses: actions/setup-node@v2.1.2
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Setup npm registry
+      - name: release beta npm packages to npmjs.org
+        if: ${{ github.event.inputs.stable }} == 'false'
         run: |
-          echo "${{ secrets.NPMRC }}" > ~/.npmrc
+          npx lerna publish --no-private --preid=beta --dist-tag=beta prerelease --yes ${{ github.event.inputs.force }}
+
+      - name: release stable npm packages to npmjs.org
+        if: ${{ github.event.inputs.stable }} == 'true'
+        run: |
+          npx lerna publish --no-private --dist-tag=stable patch --yes ${{ github.event.inputs.force }}
 
       - name: pack vsix
         working-directory: ./packages/p4
@@ -63,7 +59,18 @@ jobs:
           npm install
           npx vsce package
 
-      - name: release VSCode extension to github
+      - name: release beta VSCode extension to github
+        if: ${{ github.event.inputs.stable }} == 'false'
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.CD_PAT }}"
+          automatic_release_tag: "beta"
+          prerelease: true
+          files: |
+            ./packages/**/*.vsix
+
+      - name: release stable VSCode extension to github
+        if: ${{ github.event.inputs.stable }} == 'true'
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.CD_PAT }}"
@@ -71,4 +78,3 @@ jobs:
           prerelease: false
           files: |
             ./packages/**/*.vsix
-
