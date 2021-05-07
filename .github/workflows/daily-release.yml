@@ -54,6 +54,9 @@ jobs:
 
       - name: pack vsix
         working-directory: ./packages/p4
+        with:
+          max_attempts: 5
+          retry_on: error
         run: |
           npm install
           npx vsce package
