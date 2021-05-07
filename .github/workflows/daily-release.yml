@@ -38,7 +38,7 @@ jobs:
         run: |
           git config --global user.name 'LongOddCode'
           git config --global user.email 'haolong@microsoft.com'
-          echo ${{ GITHUB_EVENT_NAME }} 
+          echo $GITHUB_EVENT_NAME
 
 
       - name: release npm packages to npmjs.org
