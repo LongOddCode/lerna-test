@@ -41,13 +41,13 @@ jobs:
 
 
       - name: release npm packages to npmjs.org
-        if: ${{ github.event.inputs.bump }} == 'false'
+        if: ${{ github.event.inputs.bump == 'false' }} 
         run: |
           echo ${{ github.event.inputs.bump }}
           npx lerna publish --no-private --preid=alpha --dist-tag=alpha --yes prerelease
 
       - name: bump patch version and release npm packages to npmjs.org
-        if: ${{ github.event.inputs.bump }} == 'true'
+        if: ${{ github.event.inputs.bump == 'true' }}
         run: |
           echo ${{ github.event.inputs.bump }}
           npx lerna publish --no-private --preid=alpha --dist-tag=alpha --yes prepatch
