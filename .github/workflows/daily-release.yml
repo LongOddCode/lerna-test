@@ -89,5 +89,6 @@ jobs:
           repo_token: "${{ secrets.CD_PAT }}"
           automatic_release_tag: "daily"
           prerelease: true
+          title: "NOTE: Install by manually loading from vsix in vscode. Double-clicking will open Visual Studio by default and will not work."
           files: |
             ./packages/**/*.vsix
