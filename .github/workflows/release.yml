@@ -41,6 +41,11 @@ jobs:
           echo ${{ github.ref }}
           echo "${{ secrets.NPMRC }}" > ~/.npmrc
 
+      - name: Setup git
+        run: |
+          git config --global user.name 'LongOddCode'
+          git config --global user.email 'haolong@microsoft.com'
+
       - name: Setup project
         run: |
           npm run setup
