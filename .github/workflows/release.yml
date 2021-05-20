@@ -47,12 +47,13 @@ jobs:
       - name: check whether vscode extension changed or not
         id: extension-checker
         run: |
-          npx lerna changed | grep 'lerna-test-pkg4'
+          npx lerna changed | grep 'lerna-test-pkg5'
           if [ $? -eq 0 ]
           then
             echo "::set-output name=CHANGED::true"
           else
             echo "::set-output name=CHANGED::false"
+          fi
 
       - name: release daily npm packages to npmjs.org
         if: ${{ github.ref == 'dev' }}
