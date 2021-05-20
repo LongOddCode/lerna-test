@@ -38,6 +38,7 @@ jobs:
 
       - name: Setup npm registry
         run: |
+          echo ${{ github.ref }}
           echo "${{ secrets.NPMRC }}" > ~/.npmrc
 
       - name: Setup project
