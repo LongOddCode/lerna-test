@@ -21,7 +21,7 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.CD_PAT }}
-          ref: ${{ github.ref }}
+          ref: dev
 
       - name: Checkout release branch
         if: ${{ github.event_name != 'schedule' }}
@@ -47,8 +47,7 @@ jobs:
       - name: check whether vscode extension changed or not
         id: extension-checker
         run: |
-          npx lerna changed | grep 'lerna-test-pkg5'
-          if [ $? -eq 0 ]
+          if npx lerna changed | grep 'lerna-test-pkg4';
           then
             echo "::set-output name=CHANGED::true"
           else
