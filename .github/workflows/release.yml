@@ -70,6 +70,7 @@ jobs:
           npx lerna publish --no-private --dist-tag=latest ${{ github.event.inputs.version }} --yes
 
       - name: pack vsix
+        id: pack-vsix
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
@@ -79,12 +80,15 @@ jobs:
             cd ./packages/p4
             npm install
             npx vsce package
+            VERSION=`ls *.vsix | awk -F '.vsix' '{print $1}'`
+            echo "::set-output name=VERSION::$VERSION"
 
       - name: release VSCode extension to github
         if: ${{ steps.extension-checker.outputs.CHANGED == 'true' }}
         uses: marvinpinto/action-automatic-releases@latest
         with:
-          repo_token: "${{ secrets.CD_PAT }}"
+          repo_token: ${{ secrets.CD_PAT }}
           prerelease: true
+          automatic_release_tag: ${{ steps.pack-vsix.outputs.VERSION }}
           files: |
             ./packages/**/*.vsix
