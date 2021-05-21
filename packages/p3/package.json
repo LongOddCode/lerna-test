@@ -1,14 +1,14 @@
 {
     "name": "lerna-test-pkg3",
-    "version": "0.9.21-alpha.0",
+    "version": "0.9.21",
     "description": "",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
-        "lerna-test-pkg1": "^0.9.27-alpha.0",
-        "lerna-test-pkg2": "^0.9.27-alpha.0"
+        "lerna-test-pkg1": "^0.9.27",
+        "lerna-test-pkg2": "^0.9.27"
     },
     "author": "long",
     "license": "MIT",
