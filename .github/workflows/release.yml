@@ -62,17 +62,17 @@ jobs:
           fi
 
       - name: release daily npm packages to npmjs.org
-        if: ${{ github.ref == 'refs/heads/dev' }}
+        if: ${{ github.ref == 'refs/heads/dev' && startsWith(github.event.inputs.version, 'pre') }}
         run: |
           npx lerna publish --no-private --preid=alpha --dist-tag=alpha ${{ github.event.inputs.version }} --yes ${{ github.event.inputs.force }}
 
       - name: release rc npm packages to npmjs.org
-        if: ${{ github.event.inputs.version == 'prerelease' && startsWith(github.ref, 'refs/heads/release/') }}
+        if: ${{ startsWith(github.ref, 'refs/heads/release/') && github.event.inputs.version == 'prerelease' }}
         run: |
           npx lerna publish --no-private --preid=rc --dist-tag=rc prerelease --yes ${{ github.event.inputs.force }}
 
       - name: release stable npm packages to npmjs.org
-        if: ${{ github.event.inputs.version == 'major' || github.event.inputs.version == 'minor' || github.event.inputs.version == 'patch' }}
+        if: ${{ startsWith(github.ref, 'refs/heads/release/') && !startsWith(github.event.inputs.version, 'pre') }}
         run: |
           npx lerna publish --no-private --dist-tag=latest ${{ github.event.inputs.version }} --yes ${{ github.event.inputs.force }}
 
