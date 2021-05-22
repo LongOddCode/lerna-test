@@ -86,6 +86,7 @@ jobs:
           max_attempts: 10
           retry_on: error
           command: |
+            sleep 5
             cd ./packages/p4
             npm install
             npx vsce package
