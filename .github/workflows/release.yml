@@ -8,9 +8,9 @@ on:
         required: true
         default: 'prerelease'
       force:
-        description: 'force release even if no update(set empty if not)'
+        description: 'force release even if no update(set --force-publish if necessary)'
         required: false
-        default: '--force-publish'
+        default: ''
 
 jobs:
   cd:
