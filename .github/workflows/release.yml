@@ -41,6 +41,8 @@ jobs:
       - name: Setup npm registry
         run: |
           echo "${{ secrets.NPMRC }}" > ~/.npmrc
+          echo ${{ github.event.inputs }}
+          echo ${{ github.event.inputs.force }}
 
       - name: Setup project
         run: |
