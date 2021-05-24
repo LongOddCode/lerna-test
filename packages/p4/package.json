@@ -3,7 +3,7 @@
     "displayName": "CodeLens Sample",
     "description": "Samples for VS Code's CodeLens API",
     "version": "0.3.6",
-    "publisher": "ms-vscode",
+    "publisher": "formulahendry",
     "engines": {
         "vscode": "^1.26.0"
     },
