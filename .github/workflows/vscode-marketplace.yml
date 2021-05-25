@@ -28,4 +28,6 @@ jobs:
 
       - name: release to VSCode marketplace
         run: |
-          vsce publish --pat ${{ secrets.VSCE_PAT }} --packagePath *.vsix
+          vsce publish --packagePath *.vsix
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
