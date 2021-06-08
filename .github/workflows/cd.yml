@@ -46,59 +46,19 @@ jobs:
         run: |
           echo "${{ secrets.NPMRC }}" > ~/.npmrc
 
-      - name: generate templates
-        run: .github/scripts/template-zip-autogen.sh
-
-      - name: release templates' daily version to github
-        if: ${{ github.ref == 'refs/heads/dev' && startsWith(github.event.inputs.version, 'pre') }}
-        uses: marvinpinto/action-automatic-releases@latest
-        with:
-          repo_token: ${{ secrets.CD_PAT }}
-          prerelease: true
-          automatic_release_tag: "templates@0.0.0-alpha"
-          files: |
-            ./*.zip
-
-      - name: release templates' prerelease version to github
-        if: ${{ startsWith(github.ref, 'refs/heads/release/') && github.event.inputs.version == 'prerelease' }}
-        uses: marvinpinto/action-automatic-releases@latest
-        with:
-          repo_token: ${{ secrets.CD_PAT }}
-          prerelease: true
-          automatic_release_tag: "templates@0.0.0-rc"
-          files: |
-            ./*.zip
-
-      - name: cleanup templates
-        run: rm -rf ./*.zip
-
-      - name: Download Simple Auth bits
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 10
-          retry_on: error
-          shell: pwsh
-          command: |
-            $version=Get-Content packages/fx-core/templates/plugins/resource/simpleauth/version.txt
-            $tag = "simpleauth@"+$version
-            $fileName="Microsoft.TeamsFx.SimpleAuth_$version.zip"
-            $url = "https://github.com/OfficeDev/TeamsFx/releases/download/"+$tag+"/"+$fileName
-            Invoke-WebRequest $url -OutFile packages/fx-core/templates/plugins/resource/simpleauth/SimpleAuth.zip
-
       - name: Setup project
         run: |
           npm run setup
 
       - name: Setup git
         run: |
-          git config --global user.name 'MSFT-yiz'
-          git config --global user.email 'yiz@microsoft.com'
+          git config --global user.name "LongOddCode"
+          git config --global user.email 'haolong@microsoft.com'
 
       - name: check whether vscode extension changed or not
         id: extension-checker
         run: |
-          if npx lerna changed | grep 'ms-teams-vscode-extension';
+          if npx lerna changed | grep 'lerna-test-pkg4';
           then
             echo "::set-output name=CHANGED::true"
           else
@@ -124,7 +84,7 @@ jobs:
           retry_on: error
           command: |
             sleep 5
-            cd ./packages/vscode-extension
+            cd ./packages/p4
             npm install
             npx vsce package
             VERSION=`ls *.vsix | awk -F '.vsix' '{print $1}'`
