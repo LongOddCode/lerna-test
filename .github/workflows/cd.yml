@@ -15,6 +15,8 @@ on:
         description: "force release even if no update(set --force-publish if necessary)"
         required: false
         default: ""
+  schedule:
+    - cron: "0 8 * * *"
 
 jobs:
   cd:
@@ -57,8 +59,8 @@ jobs:
 
       - name: Setup git
         run: |
-          git config --global user.name "LongOddCode"
-          git config --global user.email 'haolong@microsoft.com'
+          git config --global user.name 'LongOddCode'
+          git config --global user.email 'long@microsoft.com'
 
       - name: check whether vscode extension changed or not
         id: extension-checker
@@ -71,12 +73,12 @@ jobs:
           fi
 
       - name: release prerelease npm packages to npmjs.org
-        if: ${{ github.ref == 'refs/heads/dev' && startsWith(github.event.inputs.version, 'pre') }}
+        if: ${{ startsWith(github.event.inputs.version, 'pre') }}
         run: |
           npx lerna publish --no-private --preid=${{github.event.inputs.preid }} --dist-tag=${{github.event.inputs.preid }} ${{ github.event.inputs.version }} --yes ${{ github.event.inputs.force }}
 
       - name: release stable npm packages to npmjs.org
-        if: ${{ startsWith(github.ref, 'refs/heads/master') && !startsWith(github.event.inputs.version, 'pre') }}
+        if: ${{ github.ref == 'refs/heads/main' && !startsWith(github.event.inputs.version, 'pre') }}
         run: |
           npx lerna publish --no-private --dist-tag=latest ${{ github.event.inputs.version }} --yes ${{ github.event.inputs.force }}
 
