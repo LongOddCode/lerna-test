@@ -24,11 +24,11 @@ jobs:
 
     steps:
       - name: validate branch
-        if: ${{ github.ref != 'refs/heads/dev' || github.ref != 'refs/heads/main' || (github.ref == 'refs/heads/dev' && (!startsWith(github.event.inputs.version, 'pre') || github.event.inputs.preid != 'alpha')) || (github.ref == 'refs/heads/main' && startsWith(github.event.inputs.version, 'pre') && github.event.inputs.preid != 'rc') }}
+        if: ${{ github.ref != 'refs/heads/dev' || github.ref != 'refs/heads/main' }}
         run: |
           echo ${{ github.ref }}
           echo ${{ github.event.inputs.version }}
-          echo ${{ github.event.inputs.preid}} | wc
+          echo ${{ github.event.inputs.preid }}
           exit 1
 
       - name: Checkout dev branch
