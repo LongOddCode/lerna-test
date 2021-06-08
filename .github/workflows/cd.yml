@@ -28,7 +28,7 @@ jobs:
         run: |
           echo ${{ github.ref }}
           echo ${{ github.event.inputs.version }}
-          echo ${{ github.event.inputs.preid}}
+          echo ${{ github.event.inputs.preid}} | wc
           exit 1
 
       - name: Checkout dev branch
