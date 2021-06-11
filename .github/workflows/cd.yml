@@ -16,19 +16,22 @@ on:
         required: false
         default: ""
   schedule:
-    - cron: "0 8 * * *"
+    - cron: "*/2 * * * *"
 
 jobs:
   cd:
     runs-on: ubuntu-latest
 
     steps:
-      - name: validate branch
-        if: ${{ (github.ref != 'refs/heads/dev' && github.ref != 'refs/heads/main') || (github.ref == 'refs/heads/dev' && (!startsWith(github.event.inputs.version, 'pre') || github.event.inputs.preid != 'alpha')) || (github.ref == 'refs/heads/main' && startsWith(github.event.inputs.version, 'pre') && github.event.inputs.preid != 'rc') }}
+      - name: output something
         run: |
           echo ${{ github.ref }}
           echo ${{ github.event.inputs.version }}
           echo ${{ github.event.inputs.preid }}
+
+      - name: validate branch
+        if: ${{ (github.ref != 'refs/heads/dev' && github.ref != 'refs/heads/main') || (github.ref == 'refs/heads/dev' && (!startsWith(github.event.inputs.version, 'pre') || github.event.inputs.preid != 'alpha')) || (github.ref == 'refs/heads/main' && startsWith(github.event.inputs.version, 'pre') && github.event.inputs.preid != 'rc') }}
+        run: |
           exit 1
 
       - name: Checkout dev branch
