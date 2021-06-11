@@ -26,6 +26,7 @@ jobs:
       - name: output something
         run: |
           echo ${{ github.ref }}
+          echo ${{ github.event_name }}
           echo ${{ github.event.inputs.version }}
           echo ${{ github.event.inputs.preid }}
 
