@@ -1,15 +1,15 @@
 {
-    "name": "lerna-test-pkg2",
-    "version": "0.14.0-alpha.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "dependencies": {
-        "lerna-test-pkg1": "^0.14.0-alpha.0"
-    },
-    "author": "long",
-    "license": "MIT",
-    "gitHead": "1441c53643c5d246fdf6fb4f3ab8e261cf5e0bd8"
+  "name": "lerna-test-pkg2",
+  "version": "0.14.0-alpha.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "lerna-test-pkg1": "^0.13.1-rc.0"
+  },
+  "author": "long",
+  "license": "MIT",
+  "gitHead": "1441c53643c5d246fdf6fb4f3ab8e261cf5e0bd8"
 }
