@@ -16,35 +16,19 @@ on:
         required: false
         default: ""
   schedule:
-    - cron: "*/2 * * * *"
+    - cron: "*/3 * * * *"
 
 jobs:
   cd:
     runs-on: ubuntu-latest
 
     steps:
-      - name: output something
-        run: |
-          echo ${{ github.ref }}
-          echo ${{ github.event_name }}
-          echo ${{ github.event.inputs.version }}
-          echo ${{ github.event.inputs.preid }}
-
-      - name: validate branch
-        if: ${{ (github.ref != 'refs/heads/dev' && github.ref != 'refs/heads/main') || (github.ref == 'refs/heads/dev' && (!startsWith(github.event.inputs.version, 'pre') || github.event.inputs.preid != 'alpha')) || (github.ref == 'refs/heads/main' && startsWith(github.event.inputs.version, 'pre') && github.event.inputs.preid != 'rc') }}
+      - name: Validate inputs
+        if: ${{ github.event_name == 'workflow_dispatch' && ((github.ref != 'refs/heads/dev' && github.ref != 'refs/heads/main') || (github.ref == 'refs/heads/dev' && (!startsWith(github.event.inputs.version, 'pre') || github.event.inputs.preid != 'alpha')) || (github.ref == 'refs/heads/main' && startsWith(github.event.inputs.version, 'pre') && github.event.inputs.preid != 'rc')) }}
         run: |
           exit 1
 
-      - name: Checkout dev branch
-        if: ${{ github.event_name == 'schedule' }}
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.CD_PAT }}
-          ref: dev
-
-      - name: Checkout release branch
-        if: ${{ github.event_name != 'schedule' }}
+      - name: Checkout branch
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
@@ -67,7 +51,7 @@ jobs:
       - name: Setup git
         run: |
           git config --global user.name 'LongOddCode'
-          git config --global user.email 'long@microsoft.com'
+          git config --global user.email 'haolong@microsoft.com'
 
       - name: check whether vscode extension changed or not
         id: extension-checker
@@ -79,13 +63,18 @@ jobs:
             echo "::set-output name=CHANGED::false"
           fi
 
-      - name: release prerelease npm packages to npmjs.org
-        if: ${{ startsWith(github.event.inputs.version, 'pre') }}
+      - name: daily release npm packages to npmjs.org
+        if: ${{ github.event_name == 'schedule' }}
         run: |
-          npx lerna publish --no-private --preid=${{github.event.inputs.preid }} --dist-tag=${{github.event.inputs.preid }} ${{ github.event.inputs.version }} --yes ${{ github.event.inputs.force }}
+          npx lerna publish --no-private --preid=alpha --dist-tag=alpha prerelease --yes
+
+      - name: release prerelease npm packages to npmjs.org
+        if: ${{ github.event_name == 'workflow_dispatch' && startsWith(github.event.inputs.version, 'pre') }}
+        run: |
+          npx lerna publish --no-private --preid=${{ github.event.inputs.preid }} --dist-tag=${{ github.event.inputs.preid }} ${{ github.event.inputs.version }} --yes ${{ github.event.inputs.force }}
 
       - name: release stable npm packages to npmjs.org
-        if: ${{ github.ref == 'refs/heads/main' && !startsWith(github.event.inputs.version, 'pre') }}
+        if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && !startsWith(github.event.inputs.version, 'pre') }}
         run: |
           npx lerna publish --no-private --dist-tag=latest ${{ github.event.inputs.version }} --yes ${{ github.event.inputs.force }}
 
