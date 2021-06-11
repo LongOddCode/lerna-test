@@ -23,6 +23,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: output
+        run: |
+          echo ${{ github.ref }}
+          echo ${{ github.event_name }}
+          echo ${{ github.event.inputs.version }}
+          echo ${{ github.event.inputs.preid }}
+          echo ${{ github.event.inputs.force }}
+
       - name: Validate inputs
         if: ${{ github.event_name == 'workflow_dispatch' && ((github.ref != 'refs/heads/dev' && github.ref != 'refs/heads/main') || (github.ref == 'refs/heads/dev' && (!startsWith(github.event.inputs.version, 'pre') || github.event.inputs.preid != 'alpha')) || (github.ref == 'refs/heads/main' && startsWith(github.event.inputs.version, 'pre') && github.event.inputs.preid != 'rc')) }}
         run: |
