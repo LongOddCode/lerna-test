@@ -1,6 +1,6 @@
 {
     "name": "lerna-test-pkg3",
-    "version": "0.14.0-alpha.0",
+    "version": "0.14.0-alpha.1",
     "description": "",
     "main": "index.js",
     "scripts": {
@@ -8,7 +8,7 @@
     },
     "dependencies": {
         "lerna-test-pkg1": "^0.14.0-alpha.0",
-        "lerna-test-pkg2": "^0.14.0-alpha.0"
+        "lerna-test-pkg2": "^0.14.0-alpha.1"
     },
     "author": "long",
     "license": "MIT",
