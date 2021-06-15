@@ -2,7 +2,7 @@
     "name": "lerna-test-pkg4",
     "displayName": "CodeLens Sample",
     "description": "Samples for VS Code's CodeLens API",
-    "version": "0.8.0-alpha.0",
+    "version": "0.8.0-alpha.1",
     "publisher": "formulahendry",
     "engines": {
         "vscode": "^1.26.0"
@@ -51,7 +51,7 @@
         "typescript": "^4.2.2"
     },
     "dependencies": {
-        "lerna-test-pkg1": "^0.16.0-alpha.0",
-        "lerna-test-pkg2": "^0.16.0-alpha.0"
+        "lerna-test-pkg1": "^0.16.0-alpha.1",
+        "lerna-test-pkg2": "^0.16.0-alpha.1"
     }
 }
