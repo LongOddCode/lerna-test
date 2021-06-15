@@ -9,7 +9,6 @@ It is not intended as a production quality extension.
 - Click on the CodeLens for action example
 - Can be enabled or disabled by command palete
 
-
 ## VS Code API
 
 ### `languages` module
@@ -26,5 +25,5 @@ It is not intended as a production quality extension.
 
 - Run `npm install` in terminal to install dependencies
 - Run the `Run Extension` target in the Debug View. This will:
-	- Start a task `npm: watch` to compile the code
-	- Run the extension in a new VS Code window
+  - Start a task `npm: watch` to compile the code
+  - Run the extension in a new VS Code window
