@@ -16,21 +16,13 @@ on:
         required: false
         default: ""
   schedule:
-    - cron: "*/3 * * * *"
+    - cron: "*/3 8 * * *"
 
 jobs:
   cd:
     runs-on: ubuntu-latest
 
     steps:
-      - name: output
-        run: |
-          echo ${{ github.ref }}
-          echo ${{ github.event_name }}
-          echo ${{ github.event.inputs.version }}
-          echo ${{ github.event.inputs.preid }}
-          echo ${{ github.event.inputs.force }}
-
       - name: Validate inputs
         if: ${{ github.event_name == 'workflow_dispatch' && ((github.ref != 'refs/heads/dev' && github.ref != 'refs/heads/main') || (github.ref == 'refs/heads/dev' && (!startsWith(github.event.inputs.version, 'pre') || github.event.inputs.preid != 'alpha')) || (github.ref == 'refs/heads/main' && startsWith(github.event.inputs.version, 'pre') && github.event.inputs.preid != 'rc')) }}
         run: |
@@ -58,15 +50,15 @@ jobs:
 
       - name: Setup git
         run: |
-          git config --global user.name 'LongOddCode'
-          git config --global user.email 'haolong@microsoft.com'
+          git config --global user.name 'MSFT-yiz'
+          git config --global user.email 'yiz@microsoft.com'
 
-      - name: daily release npm packages to npmjs.org
+      - name: release alpha npm packages to npmjs.org
         if: ${{ github.event_name == 'schedule' }}
         run: |
           npx lerna publish --no-private --preid=alpha --dist-tag=alpha prerelease --yes
 
-      - name: release prerelease npm packages to npmjs.org
+      - name: release rc npm packages to npmjs.org
         if: ${{ github.event_name == 'workflow_dispatch' && startsWith(github.event.inputs.version, 'pre') }}
         run: |
           npx lerna publish --no-private --preid=${{ github.event.inputs.preid }} --dist-tag=${{ github.event.inputs.preid }} ${{ github.event.inputs.version }} --yes ${{ github.event.inputs.force }}
