@@ -95,7 +95,7 @@ jobs:
         id: extension-checker
         working-directory: ./packages/p4
         run: |
-          if git diff HEAD^ packages/p4/package.json | grep version;
+          if git diff HEAD^ package.json | grep version;
           then
             echo "::set-output name=CHANGED::true"
           else
