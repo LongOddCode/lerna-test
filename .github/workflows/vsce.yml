@@ -38,7 +38,7 @@ jobs:
           retry_on: error
           command: |
             sleep 5
-            cd ./packages/vscode-extension
+            cd ./packages/p4
             npm install
             npx vsce package
             VERSION=`ls *.vsix | awk -F '.vsix' '{print $1}'`
