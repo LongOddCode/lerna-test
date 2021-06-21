@@ -1,6 +1,6 @@
 {
   "name": "lerna-test-pkg2",
-  "version": "0.16.0-alpha.1",
+  "version": "0.16.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -11,5 +11,5 @@
   },
   "author": "long",
   "license": "MIT",
-  "gitHead": "1441c53643c5d246fdf6fb4f3ab8e261cf5e0bd8"
+  "gitHead": "ea69eb92a4ef61987b68569c48afb4b49b9a8997"
 }
