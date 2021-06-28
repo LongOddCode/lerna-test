@@ -10,7 +10,7 @@ jobs:
   source-branch-test:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.unit-test.outputs.key }}
+      matrix: ${{ steps.unit-test.outputs.m }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -35,12 +35,12 @@ jobs:
             PACKAGE=$(basename $(dirname $(dirname $i)))
             echo "::set-output name=$PACKAGE::$TOTAL",
           done
-          echo "::set-output name=key::TEST_VALUE",
+          echo "::set-output name=m::123",
 
   target-branch-test:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.unit-test.outputs.key }}
+      matrix: ${{ steps.unit-test.outputs.m }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -70,7 +70,7 @@ jobs:
             PACKAGE=$(basename $(dirname $(dirname $i)))
             echo "::set-output name=$PACKAGE::$TOTAL",
           done
-          echo "::set-output name=key::TEST_VALUE",
+          echo "::set-output name=m::123",
 
   compare-coverage:
     needs: [source-branch-test, target-branch-test]
@@ -78,6 +78,6 @@ jobs:
     steps:
       - name: echo
         run: |
-          echo ${{ needs.source-branch-test.outputs.key }} 
-          echo ${{ needs.target-branch-test.outputs.key }} 
+          echo ${{ needs.source-branch-test.outputs.m }} 
+          echo ${{ needs.target-branch-test.outputs.m }} 
 
