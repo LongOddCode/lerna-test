@@ -78,6 +78,6 @@ jobs:
     steps:
       - name: echo
         run: |
-          echo ${{ needs.source-branch-test.outputs.m }} 
-          echo ${{ needs.target-branch-test.outputs.m }} 
+          echo ${{ needs.source-branch-test.outputs.matrix }} 
+          echo ${{ needs.target-branch-test.outputs.matrix }} 
 
