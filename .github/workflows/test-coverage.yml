@@ -33,6 +33,7 @@ jobs:
             PACKAGE=$(basename $(dirname $(dirname $i)))
             echo "::set-output name=$PACKAGE::$TOTAL",
           done
+          echo "::set-output name=TEST_KEY1::TEST_VALUE1",
 
   target-branch-test:
     runs-on: ubuntu-latest
@@ -65,6 +66,7 @@ jobs:
             PACKAGE=$(basename $(dirname $(dirname $i)))
             echo "::set-output name=$PACKAGE::$TOTAL",
           done
+          echo "::set-output name=TEST_KEY2::TEST_VALUE2",
 
   compare-coverage:
     needs: [source-branch-test, target-branch-test]
