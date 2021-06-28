@@ -1,0 +1,77 @@
+name: Test Coverage
+
+on:
+  pull_request:
+    branches:
+      - main
+      - dev 
+
+jobs:
+  source-branch-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Setup node
+        uses: actions/setup-node@v2.1.2
+        with:
+          node-version: 14
+
+      - name: Setup project
+        run: |
+          npm run setup
+
+      - name: Unit Test
+        id: unit-test
+        run: |
+          npx lerna run test:unit
+          for i in $(find . -name coverage-summary.json); do
+            TOTAL=$(node -p -e "require('$i').total;")
+            PACKAGE=$(basename $(dirname $(dirname $i)))
+            echo "::set-output name=$PACKAGE::$TOTAL",
+          done
+
+  target-branch-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.base_ref }}
+
+      - name: Setup node
+        uses: actions/setup-node@v2.1.2
+        with:
+          node-version: 14
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.x
+
+      - name: Setup project
+        run: |
+          npm run setup
+
+      - name: Unit Test
+        id: unit-test
+        run: |
+          npx lerna run test:unit
+          for i in $(find . -name coverage-summary.json); do
+            TOTAL=$(node -p -e "require('$i').total;")
+            PACKAGE=$(basename $(dirname $(dirname $i)))
+            echo "::set-output name=$PACKAGE::$TOTAL",
+          done
+
+  compare-coverage:
+    needs: [source-branch-test, target-branch-test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo
+        run: |
+          echo ${{ needs.source-branch-test.outputs }} 
+          echo ${{ needs.target-branch-test.outputs }} 
+
