@@ -40,7 +40,6 @@ jobs:
           for i in $(find . -name coverage-summary.json); do
             coverages=$(echo $coverages | jq -rc --arg package $(basename $(dirname $(dirname $i))) --argjson total $(jq -cr '.total' $i) '.[$package]= $total')
           done  
-          coverages=$(echo $coverages | jq -rc --argjson json '{"foo": "bar"}' '. + {foo: $json}')
           echo "::set-output name=coverages::$coverages",
 
   target-branch-test:
@@ -85,6 +84,15 @@ jobs:
     steps:
       - name: echo
         run: |
-          echo ${{needs.source-branch-test.outputs.coverages }} 
-          echo ${{needs.target-branch-test.outputs.coverages }} 
+          mapfile -t source < <(echo ${{ needs.source-branch-test.outputs.coverages }} | jq -r 'keys[]' )
 
+          for i in ${source[@]}; do
+            if [[ $(echo ${{ needs.target-branch-test.outputs.coverages }} | jq .\"$i\") != "null" ]]; then
+              targetpct=$(echo ${{ needs.target-branch-test.outputs.coverages }} | jq .\"$i\".lines.pct) 
+              sourcepct=$(echo ${{ needs.source-branch-test.outputs.coverages }} | jq .\"$i\".lines.pct) 
+              if (( $(echo "$targetpct > $sourcepct" | bc -l ) )); then
+                printf "test coverage decreased: [target]%s, [source]%s\n"  $targetpct $sourcepct
+                exit 1
+              fi
+            fi
+          done
