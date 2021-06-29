@@ -36,14 +36,11 @@ jobs:
         shell: bash
         run: |
           npx lerna run test:unit
-
-          declare -A coverages
+          coverages="{}"
           for i in $(find . -name coverage-summary.json); do
-            total=$(node -p -e "require('$i').total;")
-            package=$(basename $(dirname $(dirname $i)))
-            coverages+=([$package]=$total)
-          done
-          coverages+=(['a']='b')
+            coverages=$(echo $coverages | jq --arg package $(basename $(dirname $(dirname $i))) --argjson total $(jq -cr '.total' $i) '.[$package]= $total')
+          done  
+          coverages=$(echo $coverages | jq --argjson json '{"foo": "bar"}' '. + {foo: $json}')
           echo "::set-output name=coverages::$coverages",
 
   target-branch-test:
@@ -72,18 +69,15 @@ jobs:
 
       - name: Unit Test
         id: unit-test
+        shell: bash
         run: |
           npx lerna run test:unit
-
-          declare -A coverages
+          coverages="{}"
           for i in $(find . -name coverage-summary.json); do
-            total=$(node -p -e "require('$i').total;")
-            package=$(basename $(dirname $(dirname $i)))
-            coverages+=([$package]=$total)
-          done
-          coverages+=(['a']='b')
+            coverages=$(echo $coverages | jq --arg package $(basename $(dirname $(dirname $i))) --argjson total $(jq -cr '.total' $i) '.[$package]= $total')
+          done  
+          coverages=$(echo $coverages | jq --argjson json '{"foo": "bar"}' '. + {foo: $json}')
           echo "::set-output name=coverages::$coverages",
-        shell: bash
 
   compare-coverage:
     needs: [source-branch-test, target-branch-test]
