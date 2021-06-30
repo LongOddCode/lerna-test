@@ -1,16 +1,17 @@
 {
-    "name": "lerna-test-pkg3",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "dependencies": {
-        "lerna-test-pkg1": "^1.0.0",
-        "lerna-test-pkg2": "^1.0.0"
-    },
-    "author": "long",
-    "license": "MIT",
-    "gitHead": "ea69eb92a4ef61987b68569c48afb4b49b9a8997"
+  "name": "lerna-test-pkg3",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "lerna-test-pkg1": "^1.0.0",
+    "lerna-test-pkg2": "^1.0.0"
+  },
+  "author": "long",
+  "license": "MIT",
+  "gitHead": "ea69eb92a4ef61987b68569c48afb4b49b9a8997"
 }
