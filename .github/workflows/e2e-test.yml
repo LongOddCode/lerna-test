@@ -19,7 +19,6 @@ jobs:
           mapfile -t assignees< <(git log --pretty="%an" e2e..HEAD | tee | sort | uniq | tr '\n' ',')
           assignees=${assignees::-1}
           echo $assignees
-          assignees="yiqing-zhao"
           echo "::set-output name=assignees::$assignees"
           git_log=$(git log --pretty="%h %ad - %s (%an)" e2e..HEAD  | tee | tr -d '\n')
           mapfile -t git_log< <( git log --pretty="%h %ad - %s (%an)" e2e..HEAD | tee)
