@@ -28,7 +28,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.CD_PAT }}
           RUN_URL: https://github.com/LongOddCode/lerna-test/runs/${{ github.run_id}}
-          TITLE: E2E failed at ${{ steps.current-time.outputs.formattedTime }}
         with:
           assignees: ${{ steps.list-assignees.outputs.assignees }}
           milestone: 1
