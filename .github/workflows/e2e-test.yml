@@ -17,17 +17,20 @@ jobs:
           format: YYYYMMDD-HH
           utcOffset: "+08:00"
 
-      - name: List assignees
-        id: list-assignees
+      - name: check git log 
+        id: git-log
         shell: bash
         run: |
           mapfile -t assignees< <(git log --pretty="%an" e2e..HEAD | tee | sort | uniq)
           echo "::set-output name=assignees::$assignees"
+          git_log=$(git log --pretty="%h %ad - %s (%an)" e2e..HEAD  | tee)
+          echo "::set-output name=log::$git_log"
 
       - uses: JasonEtco/create-an-issue@v2
         env:
           GITHUB_TOKEN: ${{ secrets.CD_PAT }}
-          RUN_URL: https://github.com/LongOddCode/lerna-test/runs/${{ github.run_id}}
+          RUN_URL: https://github.com/LongOddCode/lerna-test/actions/runs/${{ github.run_id }}
+          LOG: ${{ steps.list-assignees.outputs.assignees }}
         with:
           assignees: ${{ steps.list-assignees.outputs.assignees }}
           update_existing: true
