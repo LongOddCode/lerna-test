@@ -1,6 +1,5 @@
 ---
 title: E2E Tests failed at {{ date | date("dddd, MMMM Do YYYY, hA") }}
-assignees: ''
 labels: 'e2e-test'
 ---
 
