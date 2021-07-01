@@ -12,13 +12,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get current time
-        uses: 1466587594/get-current-time@v2
-        id: current-time
-        with:
-          format: YYYYMMDD-HH
-          utcOffset: "+08:00"
-
       - name: check git log 
         id: git-log
         shell: bash
@@ -26,7 +19,7 @@ jobs:
           mapfile -t assignees< <(git log --pretty="%an" e2e..HEAD | tee | sort | uniq | tr '\n' ',')
           assignees=${assignees::-1}
           echo $assignees
-          assignees="yiqing-zhao"
+          assignees="LongOddCode"
           echo "::set-output name=assignees::$assignees"
           git_log=$(git log --pretty="%h %ad - %s (%an)" e2e..HEAD  | tee | tr -d '\n')
           mapfile -t git_log< <( git log --pretty="%h %ad - %s (%an)" e2e..HEAD | tee)
