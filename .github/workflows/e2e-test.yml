@@ -25,10 +25,12 @@ jobs:
         run: |
           mapfile -t assignees< <(git log --pretty="%an" e2e..HEAD | tee | sort | uniq)
           echo "::set-output name=assignees::$assignees"
-          git_log=$(git log --pretty="%h %ad - %s (%an)" e2e..HEAD | tee)
+          echo $assignees
+          git_log=$(git log --pretty="%h %ad - %s (%an)" e2e..HEAD  | tee | tr -d '\n')
           echo "::set-output name=log::$git_log"
 
-      - uses: JasonEtco/create-an-issue@v2
+      - name: create issue if tests failed
+        uses: JasonEtco/create-an-issue@v2
         env:
           GITHUB_TOKEN: ${{ secrets.CD_PAT }}
           RUN_URL: https://github.com/LongOddCode/lerna-test/actions/runs/${{ github.run_id }}
