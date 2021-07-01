@@ -9,6 +9,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Get current time
         uses: 1466587594/get-current-time@v2
@@ -23,7 +25,7 @@ jobs:
         run: |
           mapfile -t assignees< <(git log --pretty="%an" e2e..HEAD | tee | sort | uniq)
           echo "::set-output name=assignees::$assignees"
-          git_log=""
+          git_log=$(git log --pretty="%h %ad - %s (%an)" e2e..HEAD | tee)
           echo "::set-output name=log::$git_log"
 
       - uses: JasonEtco/create-an-issue@v2
