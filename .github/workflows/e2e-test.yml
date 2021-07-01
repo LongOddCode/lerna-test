@@ -32,8 +32,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.CD_PAT }}
           RUN_URL: https://github.com/LongOddCode/lerna-test/actions/runs/${{ github.run_id }}
-          LOG: ${{ steps.list-assignees.outputs.assignees }}
+          LOG: ${{ steps.git-log.outputs.log }}
         with:
-          assignees: ${{ steps.list-assignees.outputs.assignees }}
+          assignees: ${{ steps.git-log.outputs.assignees }}
           update_existing: true
           filename: .github/ISSUE_TEMPLATE/e2e-test.md
