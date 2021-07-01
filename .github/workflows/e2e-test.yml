@@ -24,6 +24,7 @@ jobs:
         shell: bash
         run: |
           mapfile -t assignees< <(git log --pretty="%an" e2e..HEAD | tee | sort | uniq | tr '\n' ',')
+          assignees=${assignees::-1}
           echo "::set-output name=assignees::$assignees"
           echo $assignees
           git_log=$(git log --pretty="%h %ad - %s (%an)" e2e..HEAD  | tee | tr -d '\n')
