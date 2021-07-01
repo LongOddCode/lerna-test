@@ -26,12 +26,18 @@ jobs:
           echo "::set-output name=log::${git_log[@]}"
 
       - name: create issue if tests failed
+        id: create-issue
         uses: JasonEtco/create-an-issue@v2
         env:
           GITHUB_TOKEN: ${{ secrets.CD_PAT }}
           RUN_URL: https://github.com/LongOddCode/lerna-test/actions/runs/${{ github.run_id }}
           LOG: ${{ steps.git-log.outputs.log }}
         with:
-          assignees: ${{ steps.git-log.outputs.assignees }}
           update_existing: true
           filename: .github/ISSUE_TEMPLATE/e2e-test.md
+
+      - uses: actions-ecosystem/action-add-assignees@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          number: ${{ steps.create-issue.outputs.number }}
+          assignees: ${{ steps.git-log.outputs.assignees }}
