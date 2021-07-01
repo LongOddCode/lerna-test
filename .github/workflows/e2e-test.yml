@@ -30,6 +30,5 @@ jobs:
           RUN_URL: https://github.com/LongOddCode/lerna-test/runs/${{ github.run_id}}
         with:
           assignees: ${{ steps.list-assignees.outputs.assignees }}
-          milestone: 1
           update_existing: true
           filename: .github/ISSUE_TEMPLATE/e2e-test.md
