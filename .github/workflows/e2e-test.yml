@@ -23,7 +23,7 @@ jobs:
         id: git-log
         shell: bash
         run: |
-          mapfile -t assignees< <(git log --pretty="%an" e2e..HEAD | tee | sort | uniq)
+          mapfile -t assignees< <(git log --pretty="%an" e2e..HEAD | tee | sort | uniq | tr -d ',')
           echo "::set-output name=assignees::$assignees"
           echo $assignees
           git_log=$(git log --pretty="%h %ad - %s (%an)" e2e..HEAD  | tee | tr -d '\n')
@@ -35,7 +35,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.CD_PAT }}
           RUN_URL: https://github.com/LongOddCode/lerna-test/actions/runs/${{ github.run_id }}
           LOG: ${{ steps.git-log.outputs.log }}
+          ASSIGNEES: ${{ steps.git-log.outputs.assignees }}
         with:
-          assignees: ${{ steps.git-log.outputs.assignees }}
           update_existing: true
           filename: .github/ISSUE_TEMPLATE/e2e-test.md
