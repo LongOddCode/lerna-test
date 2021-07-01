@@ -1,0 +1,28 @@
+name: E2E Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-e2e-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: List assignees
+        id: list-assignees
+        shell: bash
+        run: |
+          mapfile -t assignees< <(git log --pretty="%an" e2e..HEAD | tee | sort | uniq)
+          echo "::set-output name=assignees::$assignees"
+
+      - uses: JasonEtco/create-an-issue@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.CD_PAT }}
+          RUN_URL: https://github.com/LongOddCode/lerna-test/runs/${{ github.run_id}}
+        with:
+          assignees: ${{ steps.list-assignees.outputs.assignees }}
+          milestone: 1
+          update_existing: true
+          filename: .github/ISSUE_TEMPLATE/e2e-test.md
