@@ -27,6 +27,7 @@ jobs:
           assignees=${assignees::-1}
           echo "::set-output name=assignees::$assignees"
           echo $assignees
+          assignees="yiqing-zhao"
           git_log=$(git log --pretty="%h %ad - %s (%an)" e2e..HEAD  | tee | tr -d '\n')
           mapfile -t git_log< <( git log --pretty="%h %ad - %s (%an)" e2e..HEAD | tee)
           echo "::set-output name=log::${git_log[@]}"
