@@ -10,6 +10,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Get current time
+        uses: 1466587594/get-current-time@v2
+        id: current-time
+        with:
+          format: YYYYMMDD-HH
+          utcOffset: "+08:00"
+
       - name: List assignees
         id: list-assignees
         shell: bash
@@ -23,6 +30,7 @@ jobs:
           RUN_URL: https://github.com/LongOddCode/lerna-test/runs/${{ github.run_id}}
         with:
           assignees: ${{ steps.list-assignees.outputs.assignees }}
+          title: E2E failed at ${{ steps.current-time.outputs.formattedTime }}
           milestone: 1
           update_existing: true
           filename: .github/ISSUE_TEMPLATE/e2e-test.md
