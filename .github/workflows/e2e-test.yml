@@ -34,13 +34,13 @@ jobs:
         if: failure()
         with:
           OrganizationName: "msazure"
-          PAT: ${{ secrets.ADO_PAT }}
+          PAT: "ADO_PAT" 
           ProjectName: "Microsoft Teams Extensibility"
           AreaPath: "Microsoft Teams Extensibility\\Teams Extensibility E2E Team"
           IterationPath: "Microsoft Teams Extensibility"
-          GithubToken: ${{ secrets.CD_PAT }}
+          GithubToken: "GITHUB_PAT"
           WorkflowFileName: "e2e-test.yml"
         env:
-          PAT: ${{ secrets.ADO_PAT }}
-          GithubToken: ${{ secrets.CD_PAT }}
+          ADO_PAT: ${{ secrets.ADO_PAT }}
+          GITHUB_PAT: ${{ secrets.CD_PAT }}
         
