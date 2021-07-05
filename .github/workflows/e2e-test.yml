@@ -5,7 +5,7 @@ on:
 
 jobs:
   run-e2e-tests:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -24,23 +24,19 @@ jobs:
           git_log=$(git log --pretty="%h %ad - %s (%an)" e2e..HEAD  | tee | tr -d '\n')
           mapfile -t git_log< <( git log --pretty="%h %ad - %s (%an)" e2e..HEAD | tee)
           echo "::set-output name=log::${git_log[@]}"
+
       - name: fail
         run: |
           exit 1
 
-      - name: create azure devops issue if tests failed
-        id: create-issue
-        uses: stefanstranger/azuredevops-bug-action@1.1
+      - name: setup azure cli
         if: failure()
-        with:
-          OrganizationName: "msazure"
-          PAT: "ADO_PAT" 
-          ProjectName: "Microsoft Teams Extensibility"
-          AreaPath: "Microsoft Teams Extensibility\\Teams Extensibility E2E Team"
-          IterationPath: "Microsoft Teams Extensibility"
-          GithubToken: "GITHUB_PAT"
-          WorkflowFileName: "e2e-test.yml"
-        env:
-          ADO_PAT: ${{ secrets.ADO_PAT }}
-          GITHUB_PAT: ${{ secrets.CD_PAT }}
-        
+        run: |
+          Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile .\AzureCLI.msi; Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet'; rm .\AzureCLI.msi
+
+          $env:AZURE_DEVOPS_EXT_PAT = ${{ secrets.ADO_PAT }} 
+
+          az boards work-item create --title="long's test" --type=Bug --area="Microsoft Teams Extensibility\Teams Extensibility E2E Team" --assigned-to=haolong@microsoft.com --iteration="Microsoft Teams Extensibility" --organization="https://msazure.visualstudio.com/" --project="Microsoft Teams Extensibility" --description="<p><span style=\"color: red;\"> <strong>The Workflow $WorkflowName in $Repository failed"
+
+
+
