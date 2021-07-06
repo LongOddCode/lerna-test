@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: fail
         run: |
-          exit 0
+          exit 1
 
   create-ado-issue:
     runs-on: ubuntu-latest
