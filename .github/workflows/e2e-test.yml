@@ -4,8 +4,22 @@ on:
   workflow_dispatch:
 
 jobs:
-  run-e2e-tests:
+  run-tests:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: fail
+        run: |
+          exit 1
+
+  create-ado-issue:
     runs-on: ubuntu-latest
+    needs: run-tests
+    if: failure()
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -16,20 +30,11 @@ jobs:
         id: git-log
         shell: bash
         run: |
-          mapfile -t assignees< <(git log --pretty="%an" e2e..HEAD | tee | sort | uniq | tr '\n' ',')
-          assignees=${assignees::-1}
-          echo $assignees
-          assignees="yiqing"
-          echo "::set-output name=assignees::$assignees"
-          git_log=$(git log --pretty="%h %ad - %s (%an)" e2e..HEAD  | tee | tr -d '\n')
-          mapfile -t git_log< <( git log --pretty="%h %ad - %s (%an)" e2e..HEAD | tee)
+          git_log=$(git log --pretty="<div>%h %ad - %s <a href=\"#\" data-vss-mention=\"version:2.0\">(%ae) &#127867;</a>&nbsp;</div>" e2e..HEAD  | tee | tr -d '\n')
+          echo $git_log
           echo "::set-output name=log::${git_log[@]}"
 
-      - name: fail
-        run: |
-          exit 1
-
-      - name: Azure CLI script
+      - name: create azure devops issue if test is failed
         if: failure()
         uses: azure/CLI@v1
         with:
@@ -44,4 +49,4 @@ jobs:
                              --iteration="Microsoft Teams Extensibility" \
                              --organization="https://msazure.visualstudio.com/" \
                              --project="Microsoft Teams Extensibility" \
-                             --description="Microsoft Teams Extensibility"
+                             --description="${{ steps.git-log.outputs.log }}"
