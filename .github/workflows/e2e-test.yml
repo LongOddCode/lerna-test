@@ -9,7 +9,13 @@ jobs:
     steps:
       - name: fail
         run: |
-          exit 1
+          exit 0
+
+      - name: tag
+        if: success()
+        run: |
+          git tag -f e2e HEAD
+          git push origin -f e2e
 
   create-ado-issue:
     runs-on: ubuntu-latest
