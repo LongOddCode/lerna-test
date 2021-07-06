@@ -7,14 +7,9 @@ jobs:
   run-tests:
     runs-on: windows-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
       - name: fail
         run: |
-          exit 1
+          exit 0
 
   create-ado-issue:
     runs-on: ubuntu-latest
@@ -35,7 +30,6 @@ jobs:
           echo "::set-output name=log::${git_log[@]}"
 
       - name: create azure devops issue if test is failed
-        if: failure()
         uses: azure/CLI@v1
         with:
           azcliversion: 2.25.0
