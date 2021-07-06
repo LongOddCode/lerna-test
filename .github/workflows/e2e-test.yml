@@ -34,13 +34,31 @@ jobs:
         with:
           azcliversion: 2.25.0
           inlineScript: |
+            read -r -d '' description << EOM
+            <html>
+            <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+            <body>
+            <div class="w3-container">
+             <table class="w3-table w3-striped">
+               <tr>
+                 <th>Hash</th>
+                 <th>Time</th>
+                 <th>Message</th>
+                 <th>author</th>
+               </tr>
+               ${{ steps.git-log.outputs.log }}
+             </table>
+            </div>
+            </body>
+            </html>
+            EOM 
             export AZURE_DEVOPS_EXT_PAT=${{ secrets.ADO_PAT }}
             az extension add --name azure-devops
-            az boards work-item create --title="long's test" \
+            az boards work-item create --title="E2E tests are failed" \
                              --type=Bug \
                              --area="Microsoft Teams Extensibility\Teams Extensibility E2E Team" \
                              --assigned-to="haolong@microsoft.com" \
                              --iteration="Microsoft Teams Extensibility" \
                              --organization="https://msazure.visualstudio.com/" \
                              --project="Microsoft Teams Extensibility" \
-                             --description="<table class=\"w3-table w3-striped w3-bordered\"><tr><th>Hash</th> <th>Time</th> <th>Message</th> <th>author</th> </tr>${{ steps.git-log.outputs.log }}</table>"
+                             --description="$description"
