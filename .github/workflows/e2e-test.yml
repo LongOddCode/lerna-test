@@ -29,18 +29,13 @@ jobs:
         run: |
           exit 1
 
-      - name: Azure Login
-        if: failure()
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.ADO_PAT }}
-    
       - name: Azure CLI script
         if: failure()
         uses: azure/CLI@v1
         with:
           azcliversion: 2.25.0
           inlineScript: |
+            export AZURE_DEVOPS_EXT_PAT=${{ secrets.ADO_PAT }}
             az boards work-item create --title="long's test" \
                                        --type=Bug \
                                        --area="Microsoft Teams Extensibility\Teams Extensibility E2E Team" \
