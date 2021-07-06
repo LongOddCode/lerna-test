@@ -38,10 +38,10 @@ jobs:
             export AZURE_DEVOPS_EXT_PAT=${{ secrets.ADO_PAT }}
             az extension add --name azure-devops
             az boards work-item create --title="long's test" \
-                                       --type=Bug \
-                                       --area="Microsoft Teams Extensibility\Teams Extensibility E2E Team" \
-                                       --assigned-to="haolong@microsoft.com" \
-                                       --iteration="Microsoft Teams Extensibility" \
-                                       --organization="https://msazure.visualstudio.com/" \
-                                       --project="Microsoft Teams Extensibility" \ 
-                                       --description="The Workflow failed"
+                             --type=Bug \
+                             --area="Microsoft Teams Extensibility\Teams Extensibility E2E Team" \
+                             --assigned-to="haolong@microsoft.com" \
+                             --iteration="Microsoft Teams Extensibility" \
+                             --organization="https://msazure.visualstudio.com/" \
+                             --project="Microsoft Teams Extensibility" \
+                             --description="Microsoft Teams Extensibility"
