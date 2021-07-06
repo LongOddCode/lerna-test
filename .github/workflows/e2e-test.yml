@@ -30,6 +30,7 @@ jobs:
           exit 1
 
       - name: Azure Login
+        if: failure()
         uses: azure/login@v1
         with:
           creds: ${{ secrets.ADO_PAT }}
