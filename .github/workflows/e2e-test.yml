@@ -36,6 +36,7 @@ jobs:
           azcliversion: 2.25.0
           inlineScript: |
             export AZURE_DEVOPS_EXT_PAT=${{ secrets.ADO_PAT }}
+            az config set extension.use_dynamic_install=yes_without_prompt
             az boards work-item create --title="long's test" \
                                        --type=Bug \
                                        --area="Microsoft Teams Extensibility\Teams Extensibility E2E Team" \
