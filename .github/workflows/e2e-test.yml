@@ -44,4 +44,4 @@ jobs:
                                        --iteration="Microsoft Teams Extensibility" \
                                        --organization="https://msazure.visualstudio.com/" \
                                        --project="Microsoft Teams Extensibility" \ 
-                                       --description="<p><span style=\"color: red;\"> <strong>The Workflow $WorkflowName in $Repository failed"
+                                       --description="The Workflow failed"
