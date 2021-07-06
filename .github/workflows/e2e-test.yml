@@ -25,7 +25,7 @@ jobs:
         id: git-log
         shell: bash
         run: |
-          git_log=$(git log --pretty="<div>%h %ad - %s <a href=\"#\" data-vss-mention=\"version:2.0\">(%ae) &#127867;</a>&nbsp;</div>" e2e..HEAD  | tee | tr -d '\n')
+          git_log=$(git log --pretty="<tr><td>%h</td> <td>%ad</td> <td>%s</td> <td><a href=\"#\" data-vss-mention=\"version:2.0\">(%ae) &#127867;</a></td>" e2e..HEAD | grep -v "noreply" | tee | tr -d '\n')
           echo $git_log
           echo "::set-output name=log::${git_log[@]}"
 
@@ -43,4 +43,4 @@ jobs:
                              --iteration="Microsoft Teams Extensibility" \
                              --organization="https://msazure.visualstudio.com/" \
                              --project="Microsoft Teams Extensibility" \
-                             --description="${{ steps.git-log.outputs.log }}"
+                             --description="<table>${{ steps.git-log.outputs.log }}</table>"
