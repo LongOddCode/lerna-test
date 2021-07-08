@@ -36,7 +36,7 @@ jobs:
         id: git-log
         shell: bash
         run: |
-          git_log=$(git log --pretty="<tr> <td>%h</td> <td>%ad</td> <td>%s</td> <td><a href=\"#\" data-vss-mention=\"version:2.0\"> zhiyu.you@microsoft.com ; </a></td> </tr>" e2e..HEAD | grep -v "noreply" | tee | tr -d '\n')
+          git_log=$(git log --pretty="<tr> <td>%h</td> <td>%ad</td> <td>%s</td> <td><a href=\"#\" data-vss-mention=\"version:2.0\">zhiyu.you@microsoft.com</a></td> </tr>" e2e..HEAD | grep -v "noreply" | tee | tr -d '\n')
           echo $git_log
           echo "::set-output name=log::${git_log[@]}"
 
