@@ -48,11 +48,10 @@ jobs:
             export AZURE_DEVOPS_EXT_PAT=${{ secrets.ADO_PAT }}
             az extension add --name azure-devops
             az boards work-item create --title="E2E tests failed" \
-                             --type=Bug \
+                             --type=Task \
                              --area="demo" \
                              --assigned-to="haolong@microsoft.com" \
                              --iteration="demo" \
                              --organization="https://dev.azure.com/haolong0010/" \
                              --project="demo" \
-                             --fields="Microsoft.VSTS.TCM.ReproSteps=<a>https://github.com/LongOddCode/lerna-test/actions/runs/${{ github.run_id }}</a>" \
                              --description="<table class=\"w3-table w3-striped w3-bordered\"><tr><th>Hash</th> <th>Time</th> <th>Message</th> <th>author</th> </tr>${{ steps.git-log.outputs.log }}</table>"
