@@ -44,8 +44,9 @@ jobs:
               continue
             fi
 
-            resp=$(curl -u :rwcvvakek7docvdp4c6y4nijhwbockokapr7a6mzxxdrg52zcpqa  "https://vssps.dev.azure.com/msazure/_apis/identities?searchFilter=General&filterValue=$i&queryMembership=None&api-version=6.0")
+            resp=$(curl -u :${{ secrets.ADO_PAT }} "https://vssps.dev.azure.com/msazure/_apis/identities?searchFilter=General&filterValue=$i&queryMembership=None&api-version=6.0")
 
+            echo $resp
             uid=$(echo $resp | jq '.value | .[] | .id' | xargs echo)
             email_uid[$i]=$uid
           done
@@ -70,7 +71,7 @@ jobs:
           azcliversion: 2.25.0
           inlineScript: |
             export AZURE_DEVOPS_EXT_PAT=${{ secrets.ADO_PAT }}
-            az config set extension.use_dynamic_install=yes_without_prompt
+            az extension add --name azure-devops
             az boards work-item create --title="E2E tests failed" \
                              --type=Task \
                              --area="demo" \
