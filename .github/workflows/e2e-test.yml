@@ -36,7 +36,6 @@ jobs:
         id: git-log
         shell: bash
         run: |
-
           declare -A email_uid
           for i in $(git log --pretty="%ae"  e2e..HEAD | sort | uniq);
           do
@@ -44,9 +43,8 @@ jobs:
               continue
             fi
 
-            url="https://vssps.dev.azure.com/msazure/_apis/identities?searchFilter=General&filterValue=$i&queryMembership=None&api-version=6.0"
-            resp=$(curl -u :${{ secrets.ADO_PAT }} $url)
-
+            resp=$(curl -u :${{ secrets.ADO_PAT }} "https://vssps.dev.azure.com/msazure/_apis/identities?searchFilter=General&filterValue=$i&queryMembership=None&api-version=6.0")
+            echo $url
             echo $resp
             uid=$(echo $resp | jq '.value | .[] | .id' | xargs echo)
             email_uid[$i]=$uid
