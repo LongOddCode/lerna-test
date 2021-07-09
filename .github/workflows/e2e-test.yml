@@ -36,9 +36,33 @@ jobs:
         id: git-log
         shell: bash
         run: |
-          git_log=$(git log --pretty="<tr> <td>%h</td> <td>%ad</td> <td>%s</td> <td><a href=\"#\" data-vss-mention=\"version:2.0,fcc6f63a-9b8e-68b0-a9d3-eaf10623d0df\"> haolong@microsoft.com </a></td> </tr>" e2e..HEAD | grep -v "noreply" | tee | tr -d '\n')
-          echo $git_log
-          echo "::set-output name=log::${git_log[@]}"
+
+          declare -A email_uid
+          for i in $(git log --pretty="%ae"  e2e..HEAD | sort | uniq);
+          do
+            if [ ${email_uid[$i]+exist} ]; then
+              continue
+            fi
+
+            resp=$(curl -u :rwcvvakek7docvdp4c6y4nijhwbockokapr7a6mzxxdrg52zcpqa  "https://vssps.dev.azure.com/msazure/_apis/identities?searchFilter=General&filterValue=$i&queryMembership=None&api-version=6.0")
+
+            uid=$(echo $resp | jq '.value | .[] | .id' | xargs echo)
+            email_uid[$i]=$uid
+          done
+          echo ${email_uid[@]}
+
+          gitlog=$(git log --pretty=format:'{"commit":"%h","subject":"%s","email":"%aE","date":"%aD"},' e2e..HEAD | grep -v "noreply")
+          gitlog=[${gitlog::-1}] 
+
+          description="<tr> <th>Commit</th> <th>Date</th> <th>Subject</th> <th>Author</th> </tr>"
+          for row in $(echo $gitlog | jq -r '.[] | @base64'); do
+            _jq() {
+              echo ${row} | base64 --decode | jq -r ${1}
+            }
+            description="$description <tr> <td>$(_jq '.commit')</td> <td>$(_jq '.subject')</td> <td>$(_jq '.date')</td> <td><a href=\"#\" data-vss-mention=\"version:2.0,${email_uid[$(_jq '.email')]}\">$(_jq '.email')</a></td> </tr> "
+          done
+          echo $description
+          echo "::set-output name=description::$description"
 
       - name: create azure devops issue if test is failed
         uses: azure/CLI@v1
@@ -46,7 +70,7 @@ jobs:
           azcliversion: 2.25.0
           inlineScript: |
             export AZURE_DEVOPS_EXT_PAT=${{ secrets.ADO_PAT }}
-            az extension add --name azure-devops
+            az config set extension.use_dynamic_install=yes_without_prompt
             az boards work-item create --title="E2E tests failed" \
                              --type=Task \
                              --area="demo" \
@@ -54,4 +78,4 @@ jobs:
                              --iteration="demo" \
                              --organization="https://dev.azure.com/haolong0010/" \
                              --project="demo" \
-                             --description="<table class=\"w3-table w3-striped w3-bordered\"><tr><th>Hash</th> <th>Time</th> <th>Message</th> <th>author</th> </tr>${{ steps.git-log.outputs.log }}</table>"
+                             --description="<table class=\"w3-table w3-striped w3-bordered\">${{ steps.git-log.outputs.description }}</table>"
