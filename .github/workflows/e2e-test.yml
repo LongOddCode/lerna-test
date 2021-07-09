@@ -44,7 +44,8 @@ jobs:
               continue
             fi
 
-            resp=$(curl -u :${{ secrets.ADO_PAT }} "https://vssps.dev.azure.com/msazure/_apis/identities?searchFilter=General&filterValue=$i&queryMembership=None&api-version=6.0")
+            url="https://vssps.dev.azure.com/msazure/_apis/identities?searchFilter=General&filterValue=$i&queryMembership=None&api-version=6.0"
+            resp=$(curl -u :${{ secrets.ADO_PAT }} $url)
 
             echo $resp
             uid=$(echo $resp | jq '.value | .[] | .id' | xargs echo)
@@ -73,10 +74,11 @@ jobs:
             export AZURE_DEVOPS_EXT_PAT=${{ secrets.ADO_PAT }}
             az extension add --name azure-devops
             az boards work-item create --title="E2E tests failed" \
-                             --type=Task \
-                             --area="demo" \
+                             --type=Bug \
+                             --area="Microsoft Teams Extensibility\Teams Extensibility E2E Team" \
                              --assigned-to="haolong@microsoft.com" \
-                             --iteration="demo" \
-                             --organization="https://dev.azure.com/haolong0010/" \
-                             --project="demo" \
+                             --iteration="Microsoft Teams Extensibility" \
+                             --organization="https://msazure.visualstudio.com/" \
+                             --project="Microsoft Teams Extensibility" \
+                             --fields="Microsoft.VSTS.TCM.ReproSteps=<a>https://github.com/LongOddCode/lerna-test/actions/runs/${{ github.run_id }}</a>" \
                              --description="<table class=\"w3-table w3-striped w3-bordered\">${{ steps.git-log.outputs.description }}</table>"
