@@ -7,76 +7,15 @@ jobs:
   run-tests:
     runs-on: windows-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
       - name: fail
         run: |
           exit 1
 
-      - name: tag
-        if: success()
-        run: |
-          git tag -f e2e HEAD
-          git push origin -f e2e
-
   create-ado-issue:
     runs-on: ubuntu-latest
     needs: run-tests
-    if: failure()
+    if: failure() && (startsWith(github.ref, "refs/heads/main") || startsWith(github.ref, "refs/heads/dev"))
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: check git log 
-        id: git-log
-        shell: bash
+      - name: fail
         run: |
-          declare -A email_uid
-          for i in $(git log --pretty="%ae"  e2e..HEAD | sort | uniq);
-          do
-            if [ ${email_uid[$i]+exist} ]; then
-              continue
-            fi
-
-            resp=$(curl -u :${{ secrets.ADO_PAT }} "https://vssps.dev.azure.com/msazure/_apis/identities?searchFilter=General&filterValue=$i&queryMembership=None&api-version=6.0")
-            echo $url
-            echo $resp
-            uid=$(echo $resp | jq '.value | .[] | .id' | xargs echo)
-            email_uid[$i]=$uid
-          done
-          echo ${email_uid[@]}
-
-          gitlog=$(git log --pretty=format:'{"commit":"%h","subject":"%s","email":"%aE","date":"%aD"},' e2e..HEAD | grep -v "noreply")
-          gitlog=[${gitlog::-1}] 
-
-          description="<tr> <th>Commit</th> <th>Date</th> <th>Subject</th> <th>Author</th> </tr>"
-          for row in $(echo $gitlog | jq -r '.[] | @base64'); do
-            _jq() {
-              echo ${row} | base64 --decode | jq -r ${1}
-            }
-            description="$description <tr> <td>$(_jq '.commit')</td> <td>$(_jq '.subject')</td> <td>$(_jq '.date')</td> <td><a href=\"#\" data-vss-mention=\"version:2.0,${email_uid[$(_jq '.email')]}\">$(_jq '.email')</a></td> </tr> "
-          done
-          echo $description
-          echo "::set-output name=description::$description"
-
-      - name: create azure devops issue if test is failed
-        uses: azure/CLI@v1
-        with:
-          azcliversion: 2.25.0
-          inlineScript: |
-            export AZURE_DEVOPS_EXT_PAT=${{ secrets.ADO_PAT }}
-            az extension add --name azure-devops
-            az boards work-item create --title="E2E tests failed" \
-                             --type=Bug \
-                             --area="Microsoft Teams Extensibility\Teams Extensibility E2E Team" \
-                             --assigned-to="haolong@microsoft.com" \
-                             --iteration="Microsoft Teams Extensibility" \
-                             --organization="https://msazure.visualstudio.com/" \
-                             --project="Microsoft Teams Extensibility" \
-                             --fields="Microsoft.VSTS.TCM.ReproSteps=<a>https://github.com/LongOddCode/lerna-test/actions/runs/${{ github.run_id }}</a>" \
-                             --description="<table class=\"w3-table w3-striped w3-bordered\">${{ steps.git-log.outputs.description }}</table>"
+          exit 0
