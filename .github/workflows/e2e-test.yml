@@ -14,8 +14,9 @@ jobs:
   create-ado-issue:
     runs-on: ubuntu-latest
     needs: run-tests
-    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev' }}
+    if: failure()
     steps:
       - name: fail
         run: |
+          echo ${{ github.ref }}
           exit 0
