@@ -18,11 +18,6 @@ jobs:
         with:
           node-version: 14
 
-      - name: init keychain
-        run: |
-          which keyring
-          keyring --help
-
       - name: lerna
         run: |
           npm install
@@ -30,5 +25,7 @@ jobs:
 
       - name: Azure Login
         run: |
-          sudo apt-get install libsecret-1-dev
+          mkdir -p ~/.local/share/keyrings
+          echo "Default_keyring" >> ~/.local/share/keyrings/default
+
           npx ts-node packages/p1/azureLogin.ts -- '${{ env.AZURE_USERNAME }}' '${{ env.AZURE_PASSWORD }}'

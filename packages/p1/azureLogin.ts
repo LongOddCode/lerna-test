@@ -81,7 +81,18 @@ async function azureLogin() {
     });
 }
 
-azureLogin().catch((err) => {
-  console.log(err);
-  process.exit(1);
-});
+azureLogin()
+  .then(() => {
+    keytar
+      .getPassword(serviceName, accountName)
+      .then((resp) => {
+        console.log(resp);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  })
+  .catch((err) => {
+    console.log(err);
+    process.exit(1);
+  });
