@@ -30,4 +30,6 @@ jobs:
 
       - name: Azure Login
         run: |
+          npm install
+          npx lerna bootstrap
           npx ts-node packages/p1/azureLogin.ts -- '${{ env.AZURE_USERNAME }}' '${{ env.AZURE_PASSWORD }}'
