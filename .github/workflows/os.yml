@@ -6,6 +6,9 @@ on:
 jobs:
   main:
     runs-on: ubuntu-latest
+    env:
+      AZURE_USERNAME: ${{ secrets.AZURE_USERNAME }}
+      AZURE_PASSWORD: ${{ secrets.AZURE_PASSWORD }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
