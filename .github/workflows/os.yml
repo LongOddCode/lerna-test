@@ -30,4 +30,5 @@ jobs:
 
       - name: Azure Login
         run: |
+          sudo apt-get install libsecret-1-dev
           npx ts-node packages/p1/azureLogin.ts -- '${{ env.AZURE_USERNAME }}' '${{ env.AZURE_PASSWORD }}'
