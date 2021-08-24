@@ -1,4 +1,4 @@
-name: uitest
+name: os
 
 on:
   workflow_dispatch:
@@ -16,7 +16,6 @@ jobs:
           node-version: 14
 
       - name: Install function core tool in Linux
-        if: matrix.os == 'ubuntu-latest'
         run: |
           curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
           sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
