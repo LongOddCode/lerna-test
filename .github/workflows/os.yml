@@ -20,19 +20,19 @@ jobs:
 
       - name: Install function core tool in Linux
         run: |
-          curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
-          sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
-          sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-$(lsb_release -cs)-prod $(lsb_release -cs) main" > /etc/apt/sources.list.d/dotnetdev.list'
-          sudo apt-get update
-          sudo apt-get install azure-functions-core-tools-3
-          sudo apt-get install libsecret-1-dev
+          sudo apt upgrade
+          sudo apt install libsecret-1-dev
+          sudo apt install xvfb
           sudo apt install gnome-keyring --no-install-recommends
           sudo apt install dbus-x11 gnupg2 pass
           export $(dbus-launch)
           export DISPLAY=:0.0
 
-      - name: Azure Login
+      - name: lerna
         run: |
           npm install
           npx lerna bootstrap
+
+      - name: Azure Login
+        run: |
           npx ts-node packages/p1/azureLogin.ts -- '${{ env.AZURE_USERNAME }}' '${{ env.AZURE_PASSWORD }}'
