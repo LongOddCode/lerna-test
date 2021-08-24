@@ -28,6 +28,16 @@ jobs:
           export $(dbus-launch)
           export DISPLAY=:0.0
 
+      - name: init dbus
+        run: |
+          NO_AT_BRIDGE=1;
+          eval $(dbus-launch --sh-syntax);
+
+      - name: init keychain
+        run: |
+          eval $(echo -n "" | /usr/bin/gnome-keyring-daemon --login);
+          eval $(/usr/bin/gnome-keyring-daemon --components=secrets --start);
+
       - name: lerna
         run: |
           npm install
