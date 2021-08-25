@@ -26,8 +26,7 @@ jobs:
           sudo apt install dbus-x11 gnupg2 pass gnome-keyring libsecret-1-dev
 
           dbus-run-session -- $SHELL
-          echo -n "root" | gnome-keyring-daemon --login;
-          gnome-keyring-daemon --components=secrets --start;
+          gnome-keyring-daemon --start;
           gnome-keyring-daemon -r -d --unlock
 
           mkdir -p ~/.local/share/keyrings
