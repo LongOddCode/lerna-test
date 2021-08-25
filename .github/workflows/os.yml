@@ -25,7 +25,13 @@ jobs:
 
       - name: Azure Login
         run: |
-          mkdir -p ~/.local/share/keyrings
-          echo "Default_keyring" >> ~/.local/share/keyrings/default
+          apt-get update
+          apt install -y gnome-keyring python3-venv python3-dev
+          python3 -m venv venv
+          source venv/bin/activate # source a virtual environment to avoid polluting your system
+          pip3 install --upgrade pip
+          pip3 install keyring
+          dbus-run-session -- sh # this will drop you into a new D-bus shell
+          echo 'somecredstorepass' | gnome-keyring-daemon --unlock # unlock the system's keyring
 
           npx ts-node packages/p1/azureLogin.ts -- '${{ env.AZURE_USERNAME }}' '${{ env.AZURE_PASSWORD }}'
