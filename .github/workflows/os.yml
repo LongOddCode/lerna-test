@@ -6,9 +6,6 @@ on:
 jobs:
   main:
     runs-on: ubuntu-latest
-    env:
-      AZURE_USERNAME: ${{ secrets.AZURE_USERNAME }}
-      AZURE_PASSWORD: ${{ secrets.AZURE_PASSWORD }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -25,13 +22,7 @@ jobs:
 
       - name: Azure Login
         run: |
-          apt-get update
-          apt install -y gnome-keyring python3-venv python3-dev
-          python3 -m venv venv
-          source venv/bin/activate # source a virtual environment to avoid polluting your system
-          pip3 install --upgrade pip
-          pip3 install keyring
-          dbus-run-session -- sh # this will drop you into a new D-bus shell
-          echo 'somecredstorepass' | gnome-keyring-daemon --unlock # unlock the system's keyring
+          echo 'Default_keyring' >> ~/.local/share/keyrings/default
+          echo '${{ secrets.DEFAULT_KEYRING }}' >> ~/.local/share/keyrings/Default_keyring.keyring
 
-          npx ts-node packages/p1/azureLogin.ts -- '${{ env.AZURE_USERNAME }}' '${{ env.AZURE_PASSWORD }}'
+          npx ts-node packages/p1/azureLogin.ts -- '${{ secrets.AZURE_USERNAME  }}' '${{ secrets.AZURE_PASSWORD }}'
