@@ -23,12 +23,8 @@ jobs:
       - name: Install necessary tools in Linux
         run: |
           sudo apt update
-          sudo apt install dbus-x11 gnupg2 pass gnome-keyring libsecret-1-dev
+          sudo apt install dbus-x11 gnupg2 pass gnome-keyring libsecret-1-0 libsecret-1-dev libsecret-common libsecret-tools
 
-          echo "1====="
-          dbus-run-session -- $SHELL
-          echo "2====="
-          echo 'root' | gnome-keyring-daemon --login
 
           mkdir -p ~/.local/share/keyrings
           echo 'Default_keyring' >> ~/.local/share/keyrings/default
