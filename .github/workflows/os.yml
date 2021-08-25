@@ -6,6 +6,8 @@ on:
 jobs:
   main:
     runs-on: ubuntu-latest
+    env:
+      SFDX_USE_GENERIC_UNIX_KEYCHAIN: true
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -24,8 +26,6 @@ jobs:
         run: |
           sudo apt update
           sudo apt install dbus-x11 gnupg2 pass gnome-keyring libsecret-1-0 libsecret-1-dev libsecret-common libsecret-tools
-
-          export SFDX_USE_GENERIC_UNIX_KEYCHAIN=true
 
           mkdir -p ~/.local/share/keyrings
           echo 'Default_keyring' >> ~/.local/share/keyrings/default
