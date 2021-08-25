@@ -23,7 +23,7 @@ jobs:
       - name: Install necessary tools in Linux
         run: |
           sudo apt update
-          sudo apt install dbus-x11 gnupg2 pass
+          sudo apt install dbus-x11 gnupg2 pass gnome-keyring
           export DISPLAY=:0.0
           NO_AT_BRIDGE=1;
           eval $(dbus-launch --sh-syntax);
