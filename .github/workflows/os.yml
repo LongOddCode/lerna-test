@@ -28,7 +28,7 @@ jobs:
           echo "1====="
           dbus-run-session -- $SHELL
           echo "2====="
-          echo 'root' | /usr/bin/gnome-keyring-daemon -r -d --unlock
+          echo 'root' | gnome-keyring-daemon -r -d --unlock --login
 
           mkdir -p ~/.local/share/keyrings
           echo 'Default_keyring' >> ~/.local/share/keyrings/default
