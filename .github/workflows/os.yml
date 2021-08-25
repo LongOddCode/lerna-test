@@ -22,9 +22,7 @@ jobs:
 
       - name: Azure Login
         run: |
-          ls -alh ~/.local
-          ls -alh ~/.local/share
-          ls -alh ~/.local/share/keyrings
+          mkdir -p ~/.local/share/keyrings
           echo 'Default_keyring' >> ~/.local/share/keyrings/default
           echo '${{ secrets.DEFAULT_KEYRING }}' >> ~/.local/share/keyrings/Default_keyring.keyring
 
