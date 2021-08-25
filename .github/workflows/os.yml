@@ -20,10 +20,17 @@ jobs:
           npm install
           npx lerna bootstrap
 
-      - name: Azure Login
+      - name: Install necessary tools in Linux
         run: |
+          sudo apt update
+          sudo apt install dbus-x11 gnupg2 pass
+          export $(dbus-launch)
+          export DISPLAY=:0.0
+
           mkdir -p ~/.local/share/keyrings
           echo 'Default_keyring' >> ~/.local/share/keyrings/default
           echo '${{ secrets.DEFAULT_KEYRING }}' >> ~/.local/share/keyrings/Default_keyring.keyring
 
+      - name: Azure Login
+        run: |
           npx ts-node packages/p1/azureLogin.ts -- '${{ secrets.AZURE_USERNAME  }}' '${{ secrets.AZURE_PASSWORD }}'
