@@ -31,12 +31,6 @@ jobs:
           echo "====================="
           echo $DBUS_SESSION_BUS_ADDRESS
           echo "====================="
-          gnome-keyring-daemon --start --daemonize --components=secrets
-          echo "====================="
-          echo 'root' | gnome-keyring-daemon --login
-          echo "====================="
-          echo '<RANDOM-PASSPHRASE>' | gnome-keyring-daemon --unlock
-          echo "====================="
 
           mkdir -p ~/.local/share/keyrings
           echo 'Default_keyring' >> ~/.local/share/keyrings/default
