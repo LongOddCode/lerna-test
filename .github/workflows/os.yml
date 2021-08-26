@@ -27,7 +27,8 @@ jobs:
           sudo apt update
           sudo apt install -y dbus-x11 gnupg2 pass gnome-keyring libsecret-1-0 libsecret-1-dev libsecret-common libsecret-tools
           echo "====================="
-          dbus-daemon --session --nopidfile --nofork --address=unix:path=local/bus
+          env -u DISPLAY dbus-launch --sh-syntax
+          echo "====================="
           echo "====================="
 
           mkdir -p ~/.local/share/keyrings
