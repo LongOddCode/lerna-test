@@ -26,8 +26,11 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y dbus-x11 gnupg2 pass gnome-keyring libsecret-1-0 libsecret-1-dev libsecret-common libsecret-tools
+
           echo "====================="
-          env -u DISPLAY dbus-launch --sh-syntax
+          gpg2 --gen-key
+          pass init $gpg_id
+          echo "====================="
           echo "====================="
           echo "====================="
 
