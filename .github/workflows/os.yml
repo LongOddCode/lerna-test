@@ -28,10 +28,8 @@ jobs:
           sudo apt install -y dbus-x11 gnupg2 pass gnome-keyring libsecret-1-0 libsecret-1-dev libsecret-common libsecret-tools
 
           echo "====================="
-          gpg2 --gen-key
-          pass init $gpg_id
-          echo "====================="
-          echo "====================="
+          dbus-run-session -- sh # this will drop you into a new D-bus shell
+          echo 'somecredstorepass' | gnome-keyring-daemon --unlock
           echo "====================="
 
           mkdir -p ~/.local/share/keyrings
