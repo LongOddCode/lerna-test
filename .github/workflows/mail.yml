@@ -49,7 +49,7 @@ jobs:
           payload: |
             {
               "to": "haolong@microsoft.com",
-              "body": "TeamsFx CLI E2E Test failed <table class=\"w3-table w3-striped w3-bordered\">${{ steps.git-log.outputs.description }}</table>The detail can be found here: https://github.com/LongOddCode/lerna-test/actions/runs/${{ github.run_id }}.",
+              "body": 'TeamsFx CLI E2E Test failed <table class=\"w3-table w3-striped w3-bordered\">${{ steps.git-log.outputs.description }}</table>The detail can be found here: https://github.com/LongOddCode/lerna-test/actions/runs/${{ github.run_id }}.',
               "subject": "[Failure] TeamsFx CLI E2E Test ${{ github.run-id }}",
               "apiKey": "${{ secrets.MAIL_API_KEY }}"
             }
