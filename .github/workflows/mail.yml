@@ -40,6 +40,7 @@ jobs:
             description="$description <tr> <td>$(_jq '.commit')</td> <td>$(_jq '.subject')</td> <td>$(_jq '.date')</td> <td><a href=\"#\" data-vss-mention=\"version:2.0,${email_uid[$(_jq '.email')]}\">$(_jq '.email')</a></td> </tr> "
           done
           description=`echo $description | sed -e 's/"/\\"/g'`
+          echo $description
           echo "::set-output name=description::$description"
 
       - name: Send E-mail to the whole team
