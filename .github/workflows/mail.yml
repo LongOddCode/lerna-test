@@ -39,6 +39,7 @@ jobs:
             }
             description="$description <tr> <td>$(_jq '.commit')</td> <td>$(_jq '.subject')</td> <td>$(_jq '.date')</td> <td><a href=\"#\" data-vss-mention=\"version:2.0,${email_uid[$(_jq '.email')]}\">$(_jq '.email')</a></td> </tr> "
           done
+          description=`echo $description | sed -e 's/"/\\"/g'`
           echo "::set-output name=description::$description"
 
       - name: Send E-mail to the whole team
@@ -49,7 +50,7 @@ jobs:
           payload: |
             {
               "to": "haolong@microsoft.com",
-              "body": 'TeamsFx CLI E2E Test failed <table class=\"w3-table w3-striped w3-bordered\">${{ steps.git-log.outputs.description }}</table>The detail can be found here: https://github.com/LongOddCode/lerna-test/actions/runs/${{ github.run_id }}.',
+              "body": "TeamsFx CLI E2E Test failed <table class=\"w3-table w3-striped w3-bordered\">${{ steps.git-log.outputs.description }}</table>The detail can be found here: https://github.com/LongOddCode/lerna-test/actions/runs/${{ github.run_id }}.",
               "subject": "[Failure] TeamsFx CLI E2E Test ${{ github.run-id }}",
               "apiKey": "${{ secrets.MAIL_API_KEY }}"
             }
