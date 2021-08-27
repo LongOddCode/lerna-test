@@ -1,4 +1,4 @@
-name: os
+name: mail
 
 on:
   workflow_dispatch:
