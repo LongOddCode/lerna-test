@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  main:
+  test_os:
     runs-on: ubuntu-latest
     env:
       SFDX_USE_GENERIC_UNIX_KEYCHAIN: true
@@ -25,7 +25,7 @@ jobs:
       - name: Install necessary tools in Linux
         run: |
           sudo apt update
-          sudo apt install -y dbus-x11 gnupg2 pass gnome-keyring libsecret-1-0 libsecret-1-dev libsecret-common libsecret-tools
+          sudo apt install -y dbus-x11 gnome-keyring libsecret-1-0 libsecret-common libsecret-tools
 
           echo "====================="
           dbus-run-session -- sh # this will drop you into a new D-bus shell
