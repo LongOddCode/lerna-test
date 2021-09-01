@@ -5,7 +5,7 @@ on:
 
 jobs:
   test_os:
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-18.04
     env:
       SFDX_USE_GENERIC_UNIX_KEYCHAIN: true
     steps:
