@@ -5,7 +5,7 @@ on:
 
 jobs:
   test_os:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-16.04
     env:
       SFDX_USE_GENERIC_UNIX_KEYCHAIN: true
     steps:
@@ -25,9 +25,7 @@ jobs:
       - name: Install necessary tools in Linux
         run: |
           sudo apt update
-          sudo apt install libsecret-1-dev=0.15
 
-          export DISPLAY=:99.0
           mkdir -p ~/.local/share/keyrings
           echo 'Default_keyring' >> ~/.local/share/keyrings/default
           echo '${{ secrets.DEFAULT_KEYRING }}' >> ~/.local/share/keyrings/Default_keyring.keyring
