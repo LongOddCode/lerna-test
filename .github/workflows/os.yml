@@ -5,9 +5,7 @@ on:
 
 jobs:
   test_os:
-    runs-on: ubuntu-18.04
-    env:
-      SFDX_USE_GENERIC_UNIX_KEYCHAIN: true
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -21,6 +19,20 @@ jobs:
         run: |
           npm install
           npx lerna bootstrap
+
+      - name: fail
+        run: |
+          exit 1
+
+      - name: test always
+        if: ${{ always() && github.ref == 'refs/heads/main' }}
+        run: |
+          echo "hello, world"
+
+      - name: test fail
+        if: ${{ always() }}
+        run: |
+          echo "hello, world"
 
       - name: Install necessary tools in Linux
         run: |
