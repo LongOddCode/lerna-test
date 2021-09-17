@@ -25,7 +25,7 @@ jobs:
           script: bash
           result: TELEMETRY_RESULT
           run: |
-            line=`git diff -U0 ${{ github.base_ref }} | grep '^[+-]' | grep -Ev '^(--- a/|\+\+\+ b/)' | grep -i "telemetry" | wc -l`
+            line=`git diff -U0 origin/${{ github.base_ref }} | grep '^[+-]' | grep -Ev '^(--- a/|\+\+\+ b/)' | grep -i "telemetry" | wc -l`
             if [ $line -gt 0 ]; then
               echo '::set-output name=TELEMETRY_RESULT::true'
             fi
