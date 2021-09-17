@@ -20,7 +20,7 @@ jobs:
       - name: assign-reviewer
         uses: LongOddCode/assign-reviewer@0.1.8
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CD_PAT }}
           reviewers: '["chagong"]'
           conscript: 0
           script: bash
