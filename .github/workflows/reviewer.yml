@@ -18,7 +18,7 @@ jobs:
           node-version: 14
 
       - name: assign-reviewer
-        uses: LongOddCode/assign-reviewer@0.1.2
+        uses: LongOddCode/assign-reviewer@0.1.3
         with:
           reviewers: '["chagong"]'
           conscript: 0
