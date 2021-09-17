@@ -21,7 +21,7 @@ jobs:
         uses: LongOddCode/assign-reviewer@0.1.10
         with:
           token: ${{ secrets.CD_PAT }}
-          reviewers: '["chagong"]'
+          reviewers: '["tecton"]'
           conscript: 0
           script: bash
           result: TELEMETRY_RESULT
