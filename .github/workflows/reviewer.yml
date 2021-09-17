@@ -18,7 +18,7 @@ jobs:
           node-version: 14
 
       - name: assign-reviewer
-        uses: LongOddCode/assign-reviewer@0.1.8
+        uses: LongOddCode/assign-reviewer@0.1.9
         with:
           token: ${{ secrets.CD_PAT }}
           reviewers: '["chagong"]'
