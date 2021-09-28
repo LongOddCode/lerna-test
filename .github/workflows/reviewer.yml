@@ -21,7 +21,7 @@ jobs:
         uses: LongOddCode/assign-reviewer@0.2.1
         with:
           token: ${{ secrets.CD_PAT }}
-          reviewers: '["LongOddCode"]'
+          reviewers: '["LongOddCode", "yiqing-zhao"]'
           conscript: 0
           script: bash
           result: TELEMETRY_RESULT
