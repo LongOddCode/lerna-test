@@ -20,7 +20,7 @@ jobs:
       - name: assign-reviewer
         uses: LongOddCode/assign-reviewer@0.2.1
         with:
-          reviewers: '["chagong"]'
+          reviewers: '["LongOddCode"]'
           conscript: 0
           script: bash
           result: TELEMETRY_RESULT
