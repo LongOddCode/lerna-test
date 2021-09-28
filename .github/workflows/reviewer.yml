@@ -20,6 +20,7 @@ jobs:
       - name: assign-reviewer
         uses: LongOddCode/assign-reviewer@0.2.1
         with:
+          token: ${{ secrets.CD_PAT }}
           reviewers: '["LongOddCode"]'
           conscript: 0
           script: bash
