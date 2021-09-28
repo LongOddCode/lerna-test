@@ -18,9 +18,10 @@ jobs:
           node-version: 14
 
       - name: assign-reviewer
-        uses: LongOddCode/assign-reviewer@0.2.1
+        uses: LongOddCode/assign-reviewer@0.2.2
         with:
-          reviewers: '["chagong"]'
+          token: ${{ secrets.CD_PAT }}
+          reviewers: '["LongOddCode", "yiqing-zhao"]'
           conscript: 0
           script: bash
           result: TELEMETRY_RESULT
