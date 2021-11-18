@@ -2,6 +2,9 @@ name: test
 
 on:
   workflow_dispatch:
+    parant_id:
+      descripton: "trigger workflow id"
+      required: false
 
 jobs:
   do-sth:
