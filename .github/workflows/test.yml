@@ -1,0 +1,12 @@
+name: test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  do-sth:
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo sth
+        run: |
+          echo "hello world"
