@@ -13,4 +13,4 @@ jobs:
     steps:
       - name: echo sth
         run: |
-          echo "hello world"
+          echo ${{ job }}
