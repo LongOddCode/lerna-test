@@ -12,5 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: echo sth
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
-          echo ${{ job.container.id	}}
+          echo "$GITHUB_CONTEXT"
