@@ -23,6 +23,6 @@ jobs:
         run: |
           result=`curl \
             -u :${{ secrets.GITHUB_TOKEN }}\
-            https://api.github.com/repos//LongOddCode/lerna-test/actions/runs/${{ github.run_id }}/attempts/${{ github.run_attempt }}/jobs?per_page=100`
+            https://api.github.com/repos/LongOddCode/lerna-test/actions/runs/${{ github.run_id }}/attempts/${{ github.run_attempt }}/jobs?per_page=100`
 
           echo $result
