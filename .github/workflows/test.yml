@@ -2,14 +2,14 @@ name: test
 
 on:
   workflow_dispatch:
-    inputs:
-      parent_id:
-        description: "trigger workflow id"
-        required: false
 
 jobs:
   do-sth:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+
+    runs-on: ${{ matrix.os }}
     steps:
       - name: echo github
         env:
