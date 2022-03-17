@@ -12,5 +12,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: echo github
+        if: ${{ github.ref_name == "dev" }}
         run: |
           echo $GITHUB_REF_NAME
