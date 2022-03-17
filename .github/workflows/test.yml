@@ -12,6 +12,5 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: echo github
-        if: ${{ $GITHUB_REF_NAME == "main" }}
         run: |
           echo $GITHUB_REF_NAME
