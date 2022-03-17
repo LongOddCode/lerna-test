@@ -12,17 +12,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: echo github
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
+        if: ${{ GITHUB_REF_NAME == "main" }}
         run: |
-          echo "$GITHUB_CONTEXT"
-
-      - name: echo job
-        env:
-          JOB_CONTEXT: ${{ toJson(github.job) }}
-        run: |
-          result=`curl \
-            -u :${{ secrets.GITHUB_TOKEN }}\
-            https://api.github.com/repos/LongOddCode/lerna-test/actions/runs/${{ github.run_id }}/attempts/${{ github.run_attempt }}/jobs?per_page=100`
-
-          echo $result
+          echo $GITHUB_REF_NAME
