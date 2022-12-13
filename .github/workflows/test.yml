@@ -4,14 +4,36 @@ on:
   workflow_dispatch:
 
 jobs:
-  do-sth:
+  map:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest]
 
     runs-on: ${{ matrix.os }}
     steps:
-      - name: echo github
-        if: ${{ github.ref_name == 'dev' }}
+      - name: exit 1
+        if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
-          echo $GITHUB_REF_NAME
+          exit 1
+
+      - name: exit 0
+        run: |
+          exit 0
+
+  reduce:
+    needs: map
+    runs-on: ubuntu-latest
+    steps:
+      - name: rerun
+        if: ${{ github.run_attempt < 4 }}
+        run: |
+          curl -i \
+            -X POST \
+            -u :${{ secrets.GITHUB_TOKEN }}
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/rerun-failed-jobs
+
+      - name: done
+        if: ${{ github.run_attempt >= 4 }}
+        run: |
+          echo 1
