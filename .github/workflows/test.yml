@@ -42,6 +42,7 @@ jobs:
             status=`echo $jobs | jq --arg case $case -r '.jobs[] | select(.name == $case ) | .conclusion'`
             job_id=`echo $jobs | jq --arg case $case -r '.jobs[] | select(.name == $case ) | .id'`
             if [ "$status" != "success" ]; then
+              echo $job_id
               curl \
                 -X POST \
                 -u :${{ secrets.GITHUB_TOKEN }} \
