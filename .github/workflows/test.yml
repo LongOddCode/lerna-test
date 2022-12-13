@@ -28,10 +28,11 @@ jobs:
       - name: rerun
         if: ${{ github.run_attempt < 4 }}
         run: |
-          curl -i \
+          curl \
             -X POST \
             -u :${{ secrets.GITHUB_TOKEN }}
             -H "Accept: application/vnd.github.v3+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
             https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/rerun-failed-jobs
 
       - name: done
