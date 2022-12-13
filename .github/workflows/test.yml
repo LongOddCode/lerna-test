@@ -28,12 +28,28 @@ jobs:
       - name: rerun
         if: ${{ github.run_attempt < 4 }}
         run: |
-          curl \
-            -X POST \
+          jobs=`curl \
             -u :${{ secrets.GITHUB_TOKEN }} \
-            -H "Accept: application/vnd.github.v3+json" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/rerun-failed-jobs
+            https://api.github.com/repos/OfficeDev/TeamsFx/actions/runs/${{ github.run_id }}/attempts/${{ github.run_attempt }}/jobs?per_page=100`
+
+          cases=`echo $jobs| jq -r '.jobs[] | select(.name | contains("tests.ts")) | .name'`
+
+          while IFS= read -r case;
+          do
+            if [ -z "$case" ]; then
+              continue
+            fi
+            status=`echo $jobs | jq --arg case $case -r '.jobs[] | select(.name == $case ) | .conclusion'`
+            job_id=`echo $jobs | jq --arg case $case -r '.jobs[] | select(.name == $case ) | .id'`
+            if [ "$status" != "success" ]; then
+              curl \
+                -X POST \
+                -u :${{ secrets.GITHUB_TOKEN }} \
+                -H "Accept: application/vnd.github.v3+json" \
+                -H "X-GitHub-Api-Version: 2022-11-28" \
+                https://api.github.com/repos/${{ github.repository }}/actions/jobs/$job_id/rerun
+            fi
+          done <<< $cases
 
       - name: done
         if: ${{ github.run_attempt >= 4 }}
