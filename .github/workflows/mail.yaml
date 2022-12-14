@@ -1,0 +1,17 @@
+name: mail
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: "run id"
+        required: true
+        type: string
+
+jobs:
+  mail:
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo
+        run: |
+          echo "${{ github.event.inputs.run_id }}
