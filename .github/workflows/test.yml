@@ -22,7 +22,7 @@ jobs:
       - name: exit 1
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
-          exit 0
+          exit 1
 
       - name: exit 0
         run: |
