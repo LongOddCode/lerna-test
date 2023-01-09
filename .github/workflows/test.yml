@@ -39,7 +39,7 @@ jobs:
 
   rerun:
     needs: tear-down
-    if: ${{ failure() && github.run_attempt < 3 && github.event_name == 'schedule' }}
+    if: ${{ failure() && github.run_attempt < 3 }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
