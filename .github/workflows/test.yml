@@ -53,7 +53,7 @@ jobs:
            -d '{"ref":"'${GITHUB_REF##*/}'","inputs":{"run_id":"${{ github.run_id }}", "max_attempts":"3"}}'
 
   report:
-    needs: rerun
+    needs: execute-case
     if: ${{ success() || (failure() && github.run_attempt >=3) }}
     runs-on: ubuntu-latest
     steps:
