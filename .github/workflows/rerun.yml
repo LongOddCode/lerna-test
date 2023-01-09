@@ -1,4 +1,4 @@
-name: mail
+name: rerun failed jobs
 
 on:
   workflow_dispatch:
@@ -7,9 +7,14 @@ on:
         description: "run id"
         required: true
         type: string
+      max_attempts:
+        description: "max attempts, default is 3"
+        required: false
+        default: "3"
+        type: string
 
 jobs:
-  mail:
+  rerun:
     runs-on: ubuntu-latest
     steps:
       - name: re-run failed jobs
@@ -23,10 +28,7 @@ jobs:
           status=`jq -r '.conclusion' <<< "$run"`
           run_attempt=`jq -r '.run_attempt' <<< "$run"`
 
-          echo $status
-          echo $run_attempt
-
-          if [[ "$status" == "failure" && "$run_attempt" -lt "4" ]]; then
+          if [[ "$status" == "failure" && "$run_attempt" -lt ${{ github.event.inputs.max_attempts }} ]]; then
             curl \
               -X POST \
               -H "Accept: application/vnd.github+json" \
