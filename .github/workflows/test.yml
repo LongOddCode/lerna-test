@@ -6,8 +6,8 @@ on:
 
 jobs:
   setup:
-    if: github.actor == "deps"
     runs-on: ubuntu-latest
+    if: github.actor == 'deps'
     steps:
       - name: do sth.
         run: |
